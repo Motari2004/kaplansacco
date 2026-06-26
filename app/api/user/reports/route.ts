@@ -3,6 +3,36 @@ import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 
+interface Contribution {
+  id: string
+  amount: number
+  month: Date
+  paidDate: Date
+  status: string
+  receiptNo: string
+}
+
+interface Transaction {
+  id: string
+  type: string
+  amount: number
+  description: string
+  status: string
+  createdAt: Date
+  receiptNo: string
+}
+
+interface Loan {
+  id: string
+  amount: number
+  totalRepayable: number
+  monthlyInstallment: number
+  status: string
+  purpose: string
+  createdAt: Date
+  dueDate: Date
+}
+
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
@@ -58,12 +88,12 @@ export async function GET(request: NextRequest) {
     let total = 0
     let totalAmount = 0
     let average = 0
-    let lastActivity = null
+    let lastActivity: Date | null = null
 
     const userId = session.user.id
 
     switch (type) {
-      case 'savings':
+      case 'savings': {
         const savings = await prisma.contribution.findMany({
           where: {
             userId,
@@ -84,12 +114,13 @@ export async function GET(request: NextRequest) {
         })
         data = savings
         total = savings.length
-        totalAmount = savings.reduce((sum, s) => sum + s.amount, 0)
+        totalAmount = (savings as Contribution[]).reduce((sum: number, s: Contribution) => sum + s.amount, 0)
         average = total > 0 ? totalAmount / total : 0
         lastActivity = savings.length > 0 ? savings[0].paidDate : null
         break
+      }
 
-      case 'transactions':
+      case 'transactions': {
         const transactions = await prisma.transaction.findMany({
           where: {
             userId,
@@ -111,12 +142,13 @@ export async function GET(request: NextRequest) {
         })
         data = transactions
         total = transactions.length
-        totalAmount = transactions.reduce((sum, t) => sum + t.amount, 0)
+        totalAmount = (transactions as Transaction[]).reduce((sum: number, t: Transaction) => sum + t.amount, 0)
         average = total > 0 ? totalAmount / total : 0
         lastActivity = transactions.length > 0 ? transactions[0].createdAt : null
         break
+      }
 
-      case 'contributions':
+      case 'contributions': {
         const contributions = await prisma.contribution.findMany({
           where: {
             userId,
@@ -137,12 +169,13 @@ export async function GET(request: NextRequest) {
         })
         data = contributions
         total = contributions.length
-        totalAmount = contributions.reduce((sum, c) => sum + c.amount, 0)
+        totalAmount = (contributions as Contribution[]).reduce((sum: number, c: Contribution) => sum + c.amount, 0)
         average = total > 0 ? totalAmount / total : 0
         lastActivity = contributions.length > 0 ? contributions[0].paidDate : null
         break
+      }
 
-      case 'loans':
+      case 'loans': {
         const loans = await prisma.loan.findMany({
           where: {
             userId,
@@ -165,10 +198,11 @@ export async function GET(request: NextRequest) {
         })
         data = loans
         total = loans.length
-        totalAmount = loans.reduce((sum, l) => sum + l.amount, 0)
+        totalAmount = (loans as Loan[]).reduce((sum: number, l: Loan) => sum + l.amount, 0)
         average = total > 0 ? totalAmount / total : 0
         lastActivity = loans.length > 0 ? loans[0].createdAt : null
         break
+      }
 
       default:
         data = []
