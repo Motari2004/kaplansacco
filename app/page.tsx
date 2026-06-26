@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
@@ -34,10 +35,13 @@ import {
   Baby,
   Landmark,
   Car,
+  Menu,
+  X
 } from 'lucide-react'
 
 export default function HomePage() {
   const { data: session, status } = useSession()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -163,33 +167,19 @@ export default function HomePage() {
       description: 'Specific financing to purchase sound system for churches and church construction',
       bg: 'bg-indigo-50'
     },
-
-
     {
       icon: Smartphone,
       title: 'M-KAPLANS',
       description: 'Mobile-based lending for fast, on-the-go financial needs',
       bg: 'bg-cyan-50'
     },
-
-
-
     {
       icon: Car,
-      title: 'PASTORS,REVERENDS AND BISHOPS CAR LOANS',
-      description: 'Loans for purchasing vehicles, including cars and motorcycles  for the men of GOD',
+      title: 'PASTORS, REVERENDS AND BISHOPS CAR LOANS',
+      description: 'Loans for purchasing vehicles, including cars and motorcycles for the men of GOD',
       bg: 'bg-cyan-50'
     }
-
-
-
-
   ]
-
-
-
-
-
 
   const stats = [
     { value: '3,000+', label: 'Active Members' },
@@ -206,99 +196,150 @@ export default function HomePage() {
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-50/50 rounded-full blur-3xl"></div>
       </div>
 
+      {/* Navigation with Logo and Hamburger Menu */}
+      <nav className="relative z-50 bg-white border-b border-slate-200/50 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 md:h-20">
+            {/* Left Section - Logo & Brand */}
+            <div className="flex items-center space-x-2 md:space-x-3">
+              {/* Logo Image */}
+              <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-xl overflow-hidden bg-white border border-slate-200 flex items-center justify-center shadow-sm flex-shrink-0">
+                <img
+                  src="/images/logo.JPG"
+                  alt="Kaplans SACCO Logo"
+                  className="w-full h-full object-contain p-1.5 md:p-2"
+                />
+              </div>
+              {/* Brand Name */}
+              <div>
+                <span className="text-sm md:text-lg lg:text-xl font-bold text-slate-900 leading-tight">
+                  KAPLANS SACCO
+                </span>
+                <div className="hidden sm:block">
+                  <span className="text-[10px] md:text-xs text-slate-500 font-medium">
+                    Savings & Credit Co-operative
+                  </span>
+                </div>
+              </div>
+            </div>
 
+            {/* Center - Desktop Navigation Links */}
+            <div className="hidden lg:flex items-center space-x-6">
+              <Link href="#features" className="text-slate-600 hover:text-slate-900 transition-colors font-medium text-sm whitespace-nowrap">
+                Features
+              </Link>
+              <Link href="#savings" className="text-slate-600 hover:text-slate-900 transition-colors font-medium text-sm whitespace-nowrap">
+                Savings
+              </Link>
+              <Link href="#loans" className="text-slate-600 hover:text-slate-900 transition-colors font-medium text-sm whitespace-nowrap">
+                Loans
+              </Link>
+              <Link href="#about" className="text-slate-600 hover:text-slate-900 transition-colors font-medium text-sm whitespace-nowrap">
+                About
+              </Link>
+              <Link href="#contact" className="text-slate-600 hover:text-slate-900 transition-colors font-medium text-sm whitespace-nowrap">
+                Contact
+              </Link>
+            </div>
 
+            {/* Right Section - Auth Buttons */}
+            <div className="flex items-center space-x-2 md:space-x-3">
+              {/* Desktop Sign In */}
+              <Link
+                href="/login"
+                className="hidden sm:inline-block px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm text-slate-700 font-medium bg-slate-50 rounded-xl hover:bg-slate-100 transition-all duration-300 hover:scale-105 border border-slate-200 whitespace-nowrap"
+              >
+                Sign In
+              </Link>
+              {/* Desktop Join Now */}
+              <Link
+                href="/register"
+                className="hidden sm:inline-block relative group px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm rounded-xl font-medium text-white overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105 whitespace-nowrap"
+              >
+                <span className="relative z-10 flex items-center">
+                  Join Now
+                  <ArrowRight className="h-3 w-3 ml-1 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Link>
 
-
-
-
-
-
-
-
-
-{/* Navigation with Logo */}
-<nav className="relative z-50 bg-white border-b border-slate-200/50 shadow-sm">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="flex items-center justify-between h-16 md:h-20">
-      {/* Left Section - Logo & Brand */}
-      <div className="flex items-center space-x-2 md:space-x-3">
-        {/* Logo Image */}
-        <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-xl overflow-hidden bg-white border border-slate-200 flex items-center justify-center shadow-sm flex-shrink-0">
-          <img
-            src="/images/logo.JPG"
-            alt="Kaplans SACCO Logo"
-            className="w-full h-full object-contain p-1.5 md:p-2"
-          />
-        </div>
-        {/* Brand Name */}
-        <div>
-          <span className="text-sm md:text-lg lg:text-xl font-bold text-slate-900 leading-tight">
-            KAPLANS SACCO
-          </span>
-          <div className="hidden sm:block">
-            <span className="text-[10px] md:text-xs text-slate-500 font-medium">
-              Savings & Credit Co-operative
-            </span>
+              {/* Mobile Menu Toggle Button */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="lg:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors"
+              >
+                {mobileMenuOpen ? (
+                  <X className="h-6 w-6 text-slate-600" />
+                ) : (
+                  <Menu className="h-6 w-6 text-slate-600" />
+                )}
+              </button>
+            </div>
           </div>
+
+          {/* Mobile Menu - Slides down when hamburger is clicked */}
+          {mobileMenuOpen && (
+            <div className="lg:hidden py-4 border-t border-slate-200/50 bg-white">
+              <div className="flex flex-col space-y-2">
+                {/* Mobile Navigation Links */}
+                <Link
+                  href="#features"
+                  className="px-4 py-2.5 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors text-sm font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Features
+                </Link>
+                <Link
+                  href="#savings"
+                  className="px-4 py-2.5 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors text-sm font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Savings
+                </Link>
+                <Link
+                  href="#loans"
+                  className="px-4 py-2.5 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors text-sm font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Loans
+                </Link>
+                <Link
+                  href="#about"
+                  className="px-4 py-2.5 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors text-sm font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  About
+                </Link>
+                <Link
+                  href="#contact"
+                  className="px-4 py-2.5 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors text-sm font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Contact
+                </Link>
+
+                {/* Mobile Divider */}
+                <div className="my-2 border-t border-slate-200/50"></div>
+
+                {/* Mobile Auth Buttons */}
+                <Link
+                  href="/login"
+                  className="px-4 py-2.5 text-sm text-slate-700 font-medium bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors text-center border border-slate-200"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/register"
+                  className="px-4 py-2.5 text-sm rounded-xl font-medium text-white text-center bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Join Now
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
-
-      {/* Center - Desktop Navigation Links */}
-      <div className="hidden lg:flex items-center space-x-6">
-        <Link href="#features" className="text-slate-600 hover:text-slate-900 transition-colors font-medium text-sm whitespace-nowrap">
-          Features
-        </Link>
-        <Link href="#savings" className="text-slate-600 hover:text-slate-900 transition-colors font-medium text-sm whitespace-nowrap">
-          Savings
-        </Link>
-        <Link href="#loans" className="text-slate-600 hover:text-slate-900 transition-colors font-medium text-sm whitespace-nowrap">
-          Loans
-        </Link>
-        <Link href="#about" className="text-slate-600 hover:text-slate-900 transition-colors font-medium text-sm whitespace-nowrap">
-          About
-        </Link>
-        <Link href="#contact" className="text-slate-600 hover:text-slate-900 transition-colors font-medium text-sm whitespace-nowrap">
-          Contact
-        </Link>
-      </div>
-
-      {/* Right Section - Auth Buttons */}
-      <div className="flex items-center space-x-2 md:space-x-3">
-        {/* Sign In Button */}
-        <Link
-          href="/login"
-          className="px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm text-slate-700 font-medium bg-slate-50 rounded-xl hover:bg-slate-100 transition-all duration-300 hover:scale-105 border border-slate-200 whitespace-nowrap"
-        >
-          Sign In
-        </Link>
-        {/* Join Now Button */}
-        <Link
-          href="/register"
-          className="relative group px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm rounded-xl font-medium text-white overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105 whitespace-nowrap"
-        >
-          <span className="relative z-10 flex items-center">
-            Join Now
-            <ArrowRight className="h-3 w-3 ml-1 group-hover:translate-x-1 transition-transform" />
-          </span>
-        </Link>
-      </div>
-    </div>
-  </div>
-</nav>
-
-
-
-
-
-
-
-
-
-
-
-
-
+      </nav>
 
       {/* Hero Section - Image on Right */}
       <section className="relative pt-12 pb-16 overflow-hidden">
@@ -542,19 +583,6 @@ export default function HomePage() {
         </div>
       </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
       {/* CTA Section */}
       <section id="about" className="relative py-12 bg-slate-50/50 border-y border-slate-200/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -589,25 +617,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       {/* Contact Section */}
       <section id="contact" className="relative py-12 bg-white">
@@ -713,19 +722,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       {/* Footer */}
       <footer className="relative bg-slate-900 text-slate-300 border-t border-slate-800 py-8">
