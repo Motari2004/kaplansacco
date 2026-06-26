@@ -290,7 +290,6 @@ export default function DashboardPage() {
           {/* Quick Actions */}
           <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 border border-slate-200">
             <h3 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-amber-500" />
               Quick Actions
             </h3>
             <div className="grid grid-cols-2 gap-2">
