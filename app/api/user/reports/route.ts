@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
         startDate.setDate(1)
     }
 
-    let data = []
+    let data: any[] = []
     let total = 0
     let totalAmount = 0
     let average = 0

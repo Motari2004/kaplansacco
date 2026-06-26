@@ -3,6 +3,15 @@ import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 
+interface Activity {
+  id: string
+  type: string
+  title: string
+  amount: number
+  status: string
+  createdAt: Date
+}
+
 export async function GET() {
   try {
     const session = await getServerSession(authOptions)
@@ -27,13 +36,12 @@ export async function GET() {
       take: 5,
     })
 
-    // Format activities
-    const activities = []
+    // Format activities with proper typing
+    const activities: Activity[] = []
 
     // Add transactions
     transactions.forEach((t: any) => {
       let title = ''
-      let icon = 'TRANSACTION'
       let amount = t.amount
       
       switch (t.type) {
