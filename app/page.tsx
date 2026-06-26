@@ -724,7 +724,7 @@ export default function HomePage() {
               <div className="flex items-center space-x-2 mb-2">
                 <div className="relative w-15 h-15 rounded-lg overflow-hidden bg-white border border-slate-700 flex items-center justify-center">
                   <img
-                    src="/images/logo.jpg"
+                    src="/images/logo.JPG"
                     alt="Kaplans SACCO Logo"
                     className="w-full h-full object-contain p-1"
                   />

@@ -135,7 +135,7 @@ export default function RegisterPage() {
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur-xl opacity-40"></div>
                   <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-white p-1.5 shadow-lg border border-blue-200/50">
                     <img
-                      src="/images/logo.jpg"
+                      src="/images/logo.JPG"
                       alt="Kaplans SACCO Logo"
                       className="w-full h-full object-contain"
                     />

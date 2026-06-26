@@ -62,7 +62,7 @@ export default function LoginPage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-40"></div>
                 <div className="relative w-20 h-20 rounded-2xl overflow-hidden bg-white p-2 shadow-lg border border-blue-200/50">
                   <img
-                    src="/images/logo.jpg"
+                    src="/images/logo.JPG"
                     alt="Kaplans SACCO Logo"
                     className="w-full h-full object-contain"
                   />
