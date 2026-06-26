@@ -223,7 +223,7 @@ export default function HomePage() {
               {/* Logo Image - Using img tag */}
               <div className="relative w-22 h-22 rounded-xl overflow-hidden bg-white border border-slate-200 flex items-center justify-center shadow-sm">
                 <img
-                  src="/images/logo.jpg"
+                  src="/images/logo.JPG"
                   alt="Kaplans SACCO Logo"
                   className="w-full h-full object-contain p-2"
                 />
