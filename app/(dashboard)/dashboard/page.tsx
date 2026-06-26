@@ -176,13 +176,13 @@ export default function DashboardPage() {
 
   if (status === 'loading' || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-2xl animate-pulse-glow" />
+            <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-2xl animate-pulse" />
             <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent relative z-10" />
           </div>
-          <p className="mt-4 text-slate-600 font-medium">Loading premium dashboard...</p>
+          <p className="mt-4 text-slate-600 font-medium">Loading...</p>
         </div>
       </div>
     )
@@ -239,21 +239,15 @@ export default function DashboardPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 p-6">
-      {/* Background Effects */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-[-40%] right-[-20%] w-[600px] h-[600px] bg-gradient-to-br from-blue-400/20 via-indigo-400/10 to-purple-400/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-[-30%] left-[-20%] w-[500px] h-[500px] bg-gradient-to-tr from-emerald-400/20 via-teal-400/10 to-cyan-400/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '-3s' }} />
-      </div>
-
+    <div className="min-h-screen bg-slate-50/50 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="glass rounded-3xl p-6 mb-8 border border-white/30">
+        <div className="bg-white rounded-2xl shadow-sm p-6 mb-8 border border-slate-200/50">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-50 animate-pulse-glow" />
-                <div className="relative h-14 w-14 rounded-2xl gradient-primary flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-50 animate-pulse" />
+                <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center">
                   <UserCircle className="h-8 w-8 text-white" />
                 </div>
               </div>
@@ -262,16 +256,16 @@ export default function DashboardPage() {
                   Welcome back, {session.user?.name || 'Member'}!
                 </h1>
                 <div className="flex items-center gap-2 mt-1">
-                  <div className="flex items-center gap-1 glass px-3 py-1 rounded-full">
+                  <div className="flex items-center gap-1 bg-slate-100 px-3 py-1 rounded-full">
                     <Crown className="h-3 w-3 text-amber-500" />
                     <span className="text-xs font-medium text-slate-600">Premium Member</span>
                   </div>
-                  <div className="flex items-center gap-1 glass px-3 py-1 rounded-full">
+                  <div className="flex items-center gap-1 bg-slate-100 px-3 py-1 rounded-full">
                     <Sparkles className="h-3 w-3 text-blue-500" />
                     <span className="text-xs font-medium text-slate-600">Member since {userStats.memberSince ? new Date(userStats.memberSince).getFullYear() : '2024'}</span>
                   </div>
                   {userStats.pendingWithdrawals > 0 && (
-                    <div className="flex items-center gap-1 glass px-3 py-1 rounded-full bg-amber-50 border-amber-200">
+                    <div className="flex items-center gap-1 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
                       <Clock className="h-3 w-3 text-amber-600" />
                       <span className="text-xs font-medium text-amber-600">{userStats.pendingWithdrawals} pending withdrawals</span>
                     </div>
@@ -280,16 +274,16 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <button className="glass p-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-1 relative">
+              <button className="bg-slate-50 p-3 rounded-xl hover:shadow-md transition-all duration-300 hover:-translate-y-1 relative border border-slate-200">
                 <Bell className="h-5 w-5 text-slate-600" />
                 <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full border-2 border-white" />
               </button>
-              <button className="glass p-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <button className="bg-slate-50 p-3 rounded-xl hover:shadow-md transition-all duration-300 hover:-translate-y-1 border border-slate-200">
                 <Settings className="h-5 w-5 text-slate-600" />
               </button>
               <button
                 onClick={() => signOut({ callbackUrl: '/login' })}
-                className="glass p-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-1 text-red-500 hover:text-red-600"
+                className="bg-slate-50 p-3 rounded-xl hover:shadow-md transition-all duration-300 hover:-translate-y-1 text-red-500 hover:text-red-600 border border-slate-200"
               >
                 <LogOut className="h-5 w-5" />
               </button>
@@ -302,7 +296,7 @@ export default function DashboardPage() {
           {stats.map((stat, index) => {
             const Icon = stat.icon
             return (
-              <div key={index} className="glass p-6 rounded-2xl border border-white/30 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+              <div key={index} className="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all duration-300 hover:-translate-y-1 border border-slate-200/50">
                 <div className="flex items-center justify-between mb-4">
                   <div className={`inline-flex p-2.5 rounded-xl bg-gradient-to-br ${stat.gradient}`}>
                     <Icon className="h-5 w-5 text-white" />
@@ -325,10 +319,11 @@ export default function DashboardPage() {
           })}
         </div>
 
-        {/* Quick Actions */}
+        {/* Quick Actions & Recent Activity */}
         <div className="grid lg:grid-cols-2 gap-6">
-          <div className="glass p-6 rounded-2xl border border-white/30">
+          <div className="bg-white rounded-2xl shadow-sm p-6 border border-slate-200/50">
             <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-amber-500" />
               Quick Actions
             </h3>
             <div className="grid grid-cols-2 gap-3">
@@ -338,7 +333,7 @@ export default function DashboardPage() {
                   <Link
                     key={action.name}
                     href={action.href}
-                    className="group p-4 rounded-xl bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                    className="group p-4 rounded-xl bg-slate-50 hover:bg-slate-100/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
                   >
                     <div className={`inline-flex p-2.5 rounded-xl bg-gradient-to-br ${action.color} mb-3 group-hover:scale-110 transition-transform`}>
                       <Icon className="h-5 w-5 text-white" />
@@ -350,8 +345,8 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Recent Activity - REAL DATA */}
-          <div className="glass p-6 rounded-2xl border border-white/30">
+          {/* Recent Activity */}
+          <div className="bg-white rounded-2xl shadow-sm p-6 border border-slate-200/50">
             <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
               <Clock className="h-5 w-5 text-blue-500" />
               Recent Activity
@@ -364,7 +359,7 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 recentActivities.map((activity: any) => (
-                  <div key={activity.id} className="flex items-center justify-between p-3 rounded-xl bg-white/40 backdrop-blur-sm hover:bg-white/60 transition-colors">
+                  <div key={activity.id} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-slate-100/60 transition-colors">
                     <div className="flex items-center gap-3">
                       <div className={`h-10 w-10 rounded-full ${getActivityColor(activity.type)} flex items-center justify-center`}>
                         {getActivityIcon(activity.type)}
