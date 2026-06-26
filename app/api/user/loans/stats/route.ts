@@ -16,15 +16,15 @@ export async function GET() {
     })
 
     const totalLoans = loans.length
-    const activeLoans = loans.filter(l => l.status === 'APPROVED' || l.status === 'DISBURSED').length
-    const pendingLoans = loans.filter(l => l.status === 'PENDING').length
-    const totalAmount = loans.reduce((sum, l) => sum + l.amount, 0)
+    const activeLoans = loans.filter((l: any) => l.status === 'APPROVED' || l.status === 'DISBURSED').length
+    const pendingLoans = loans.filter((l: any) => l.status === 'PENDING').length
+    const totalAmount = loans.reduce((sum: number, l: any) => sum + l.amount, 0)
 
     // Find next payment (earliest due date among active loans)
-    const activeLoansList = loans.filter(l => l.status === 'APPROVED' || l.status === 'DISBURSED')
+    const activeLoansList = loans.filter((l: any) => l.status === 'APPROVED' || l.status === 'DISBURSED')
     let nextPayment = null
     if (activeLoansList.length > 0) {
-      const earliestDue = activeLoansList.reduce((earliest, current) => {
+      const earliestDue = activeLoansList.reduce((earliest: any, current: any) => {
         return new Date(current.dueDate) < new Date(earliest.dueDate) ? current : earliest
       })
       nextPayment = earliestDue.dueDate
