@@ -10,7 +10,6 @@ import {
   PiggyBank, 
   TrendingUp,
   Wallet,
-  Crown,
   Sparkles,
   ArrowUpRight,
   ArrowDownRight,
@@ -18,20 +17,8 @@ import {
   UserCircle,
   Settings,
   LogOut,
-  Building2,
-  BarChart3,
-  Calendar,
-  DollarSign,
-  UserPlus,
   FileText,
-  Bell,
-  Search,
-  Filter,
-  ChevronDown,
-  Eye,
-  Edit,
-  Trash2,
-  ClipboardList
+  Bell
 } from 'lucide-react'
 
 export default function AdminDashboard() {
@@ -60,7 +47,9 @@ export default function AdminDashboard() {
       return
     }
 
-    fetchDashboardData()
+    if (status === 'authenticated') {
+      fetchDashboardData()
+    }
   }, [status, session, router])
 
   const fetchDashboardData = async () => {
@@ -87,13 +76,10 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
-          <div className="relative">
-            <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-2xl animate-pulse"></div>
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent relative"></div>
-          </div>
-          <p className="mt-4 text-slate-600 font-medium">Loading admin dashboard...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent" />
+          <p className="mt-4 text-slate-600 text-sm">Loading admin dashboard...</p>
         </div>
       </div>
     )
@@ -108,72 +94,77 @@ export default function AdminDashboard() {
       title: 'Total Members',
       value: stats.totalMembers,
       icon: Users,
-      color: 'from-blue-500 to-indigo-500',
-      change: '+12%',
-      trend: 'up'
+      color: 'text-blue-600',
+      bg: 'bg-blue-50'
     },
     {
       title: 'Pending Withdrawals',
       value: stats.pendingWithdrawals || 0,
       icon: Wallet,
-      color: 'from-amber-500 to-orange-500',
-      change: stats.pendingWithdrawals > 0 ? '⚠️ Needs review' : '',
-      trend: stats.pendingWithdrawals > 0 ? 'down' : 'up'
+      color: 'text-amber-600',
+      bg: 'bg-amber-50'
     },
     {
       title: 'Total Savings',
       value: `Kshs ${(stats.totalSavings || 0).toLocaleString()}`,
       icon: PiggyBank,
-      color: 'from-purple-500 to-pink-500',
-      change: '+15%',
-      trend: 'up'
+      color: 'text-purple-600',
+      bg: 'bg-purple-50'
     },
     {
       title: 'Active Loans',
       value: stats.activeLoans,
       icon: CreditCard,
-      color: 'from-emerald-500 to-teal-500',
-      change: '-3%',
-      trend: 'down'
+      color: 'text-emerald-600',
+      bg: 'bg-emerald-50'
     }
   ]
 
+  const quickActions = [
+    { name: 'Members', icon: Users, href: '/admin/members', color: 'text-blue-600', bg: 'bg-blue-50' },
+    { name: 'Loans', icon: CreditCard, href: '/admin/loans', color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    { name: 'Withdrawals', icon: Wallet, href: '/admin/withdrawals', color: 'text-amber-600', bg: 'bg-amber-50' },
+    { name: 'Reports', icon: FileText, href: '/admin/reports', color: 'text-purple-600', bg: 'bg-purple-50' },
+  ]
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-slate-50/50 p-3 sm:p-4 md:p-6">
       {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-slate-200/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3">
-              <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-white border border-slate-200 flex items-center justify-center shadow-sm">
-                <img src="/images/logo.jpg" alt="Logo" className="w-full h-full object-contain p-1.5" />
+      <nav className="bg-white shadow-sm border-b border-slate-200/50 mb-4 sm:mb-6">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
+          <div className="flex items-center justify-between h-14 sm:h-16">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-lg overflow-hidden bg-white border border-slate-200 flex items-center justify-center flex-shrink-0">
+                <img src="/images/logo.jpg" alt="Logo" className="w-full h-full object-contain p-1" />
               </div>
               <div>
-                <span className="text-xl font-bold text-slate-900">Admin Panel</span>
-                <div className="flex items-center gap-1">
-                  <span className="text-xs text-slate-500 font-medium">Kaplans SACCO</span>
+                <span className="text-sm sm:text-base md:text-xl font-bold text-slate-900">Admin Panel</span>
+                <div className="hidden sm:block">
+                  <span className="text-[10px] text-slate-500 font-medium">Kaplans SACCO</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center space-x-4">
-              <button className="relative p-2 rounded-lg hover:bg-slate-100 transition-colors">
-                <Bell className="h-5 w-5 text-slate-600" />
-                <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <button className="relative p-1.5 sm:p-2 rounded-lg hover:bg-slate-100 transition-colors">
+                <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-slate-600" />
+                <span className="absolute top-0.5 right-0.5 h-1.5 w-1.5 bg-red-500 rounded-full" />
               </button>
-              <div className="flex items-center space-x-3">
-                <div className="text-right hidden sm:block">
-                  <p className="text-sm font-medium text-slate-900">{session.user?.name || 'Admin'}</p>
-                  <p className="text-xs text-slate-500">Administrator</p>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="text-right hidden xs:block">
+                  <p className="text-xs sm:text-sm font-medium text-slate-900 truncate max-w-[80px] sm:max-w-none">
+                    {session.user?.name || 'Admin'}
+                  </p>
+                  <p className="text-[10px] text-slate-500 hidden sm:block">Administrator</p>
                 </div>
-                <div className="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
-                  <UserCircle className="h-6 w-6 text-white" />
+                <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <UserCircle className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
                 </div>
                 <button
                   onClick={() => signOut({ callbackUrl: '/login' })}
-                  className="p-2 rounded-lg hover:bg-slate-100 transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg hover:bg-slate-100 transition-colors"
                 >
-                  <LogOut className="h-5 w-5 text-slate-600" />
+                  <LogOut className="h-4 w-4 sm:h-5 sm:w-5 text-slate-600" />
                 </button>
               </div>
             </div>
@@ -181,119 +172,93 @@ export default function AdminDashboard() {
         </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto">
         {/* Welcome Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900">Admin Dashboard</h1>
-          <p className="text-slate-600 mt-1">Manage your SACCO operations from one place</p>
+        <div className="mb-4 sm:mb-6">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900">Admin Dashboard</h1>
+          <p className="text-sm text-slate-600 mt-0.5">Manage your SACCO operations</p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6">
           {statCards.map((stat, index) => {
             const Icon = stat.icon
             return (
-              <div key={index} className="bg-white rounded-2xl shadow-sm p-6 hover:shadow-lg transition-shadow duration-300">
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${stat.color}`}>
-                    <Icon className="h-5 w-5 text-white" />
+              <div key={index} className="bg-white rounded-xl shadow-sm p-3 sm:p-4 border border-slate-200">
+                <div className="flex items-center justify-between mb-1 sm:mb-2">
+                  <div className={`p-1.5 sm:p-2 rounded-lg ${stat.bg}`}>
+                    <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-600" />
                   </div>
-                  <span className={`text-sm font-medium ${stat.trend === 'up' ? 'text-emerald-600' : 'text-red-600'}`}>
-                    {stat.change}
-                  </span>
                 </div>
-                <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
-                <div className="text-sm text-slate-500 mt-1">{stat.title}</div>
+                <div className={`text-sm sm:text-base md:text-xl font-bold ${stat.color} truncate`}>
+                  {stat.value}
+                </div>
+                <div className="text-[10px] sm:text-xs text-slate-500 mt-0.5">{stat.title}</div>
               </div>
             )
           })}
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <Link
-            href="/admin/members"
-            className="bg-white p-4 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex items-center gap-3"
-          >
-            <div className="bg-blue-50 p-3 rounded-xl">
-              <Users className="h-5 w-5 text-blue-600" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-slate-900">Members</p>
-              <p className="text-xs text-slate-500">Manage members</p>
-            </div>
-          </Link>
-          <Link
-            href="/admin/loans"
-            className="bg-white p-4 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex items-center gap-3"
-          >
-            <div className="bg-emerald-50 p-3 rounded-xl">
-              <CreditCard className="h-5 w-5 text-emerald-600" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-slate-900">Loans</p>
-              <p className="text-xs text-slate-500">Manage loans</p>
-            </div>
-          </Link>
-          <Link
-            href="/admin/withdrawals"
-            className="bg-white p-4 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex items-center gap-3"
-          >
-            <div className="bg-amber-50 p-3 rounded-xl">
-              <Wallet className="h-5 w-5 text-amber-600" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-slate-900">Withdrawals</p>
-              <p className="text-xs text-slate-500">Approve/Reject</p>
-              {stats.pendingWithdrawals > 0 && (
-                <span className="inline-flex items-center px-2 py-0.5 mt-1 text-xs font-medium bg-amber-500 text-white rounded-full">
-                  {stats.pendingWithdrawals} pending
-                </span>
-              )}
-            </div>
-          </Link>
-          <Link
-            href="/admin/reports"
-            className="bg-white p-4 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex items-center gap-3"
-          >
-            <div className="bg-purple-50 p-3 rounded-xl">
-              <FileText className="h-5 w-5 text-purple-600" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-slate-900">Reports</p>
-              <p className="text-xs text-slate-500">Generate reports</p>
-            </div>
-          </Link>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6">
+          {quickActions.map((action) => {
+            const Icon = action.icon
+            return (
+              <Link
+                key={action.name}
+                href={action.href}
+                className="bg-white p-3 sm:p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 border border-slate-200 flex items-center gap-2 sm:gap-3"
+              >
+                <div className={`p-1.5 sm:p-2 rounded-lg ${action.bg} flex-shrink-0`}>
+                  <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-600" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm font-semibold text-slate-900 truncate">{action.name}</p>
+                  <p className="text-[10px] text-slate-500 hidden sm:block truncate">
+                    {action.name === 'Withdrawals' && stats.pendingWithdrawals > 0 
+                      ? `${stats.pendingWithdrawals} pending` 
+                      : `Manage ${action.name.toLowerCase()}`}
+                  </p>
+                </div>
+              </Link>
+            )
+          })}
         </div>
 
         {/* Recent Members & Transactions */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* Recent Members */}
-          <div className="bg-white rounded-2xl shadow-sm p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-slate-900">Recent Members</h3>
-              <Link href="/admin/members" className="text-sm text-blue-600 hover:text-blue-700">
+          <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-slate-200">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h3 className="text-sm sm:text-base md:text-lg font-bold text-slate-900">Recent Members</h3>
+              <Link href="/admin/members" className="text-xs sm:text-sm text-blue-600 hover:text-blue-700">
                 View All →
               </Link>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {recentMembers.length === 0 ? (
                 <p className="text-slate-500 text-sm">No recent members</p>
               ) : (
                 recentMembers.map((member: any) => (
-                  <div key={member.id} className="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
+                  <div key={member.id} className="flex items-center justify-between border-b border-slate-100 pb-2 last:border-0 last:pb-0">
+                    <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                      <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xs sm:text-sm flex-shrink-0">
                         {member.firstName?.[0]}{member.lastName?.[0]}
                       </div>
-                      <div>
-                        <p className="font-semibold text-slate-900">{member.firstName} {member.lastName}</p>
-                        <p className="text-xs text-slate-500">{member.memberNumber}</p>
+                      <div className="min-w-0">
+                        <p className="text-xs sm:text-sm font-semibold text-slate-900 truncate">
+                          {member.firstName} {member.lastName}
+                        </p>
+                        <p className="text-[10px] sm:text-xs text-slate-500">{member.memberNumber}</p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm text-emerald-600">Kshs {member.savingsBalance?.toLocaleString() || 0}</p>
-                      <p className="text-xs text-slate-400">{new Date(member.createdAt).toLocaleDateString()}</p>
+                    <div className="text-right flex-shrink-0 ml-2">
+                      <p className="text-xs sm:text-sm font-medium text-emerald-600">
+                        Kshs {member.savingsBalance?.toLocaleString() || 0}
+                      </p>
+                      <p className="text-[10px] text-slate-400">
+                        {new Date(member.createdAt).toLocaleDateString()}
+                      </p>
                     </div>
                   </div>
                 ))
@@ -302,52 +267,63 @@ export default function AdminDashboard() {
           </div>
 
           {/* Recent Transactions */}
-          <div className="bg-white rounded-2xl shadow-sm p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-slate-900">Recent Transactions</h3>
-              <Link href="/admin/transactions" className="text-sm text-blue-600 hover:text-blue-700">
+          <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-slate-200">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h3 className="text-sm sm:text-base md:text-lg font-bold text-slate-900">Recent Transactions</h3>
+              <Link href="/admin/transactions" className="text-xs sm:text-sm text-blue-600 hover:text-blue-700">
                 View All →
               </Link>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {recentTransactions.length === 0 ? (
                 <p className="text-slate-500 text-sm">No recent transactions</p>
               ) : (
                 recentTransactions.map((transaction: any) => (
-                  <div key={transaction.id} className="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-lg ${
+                  <div key={transaction.id} className="flex items-center justify-between border-b border-slate-100 pb-2 last:border-0 last:pb-0">
+                    <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                      <div className={`p-1.5 sm:p-2 rounded-lg flex-shrink-0 ${
                         transaction.type === 'DEPOSIT' ? 'bg-emerald-50' : 
                         transaction.type === 'WITHDRAWAL' ? 'bg-red-50' : 'bg-blue-50'
                       }`}>
                         {transaction.type === 'DEPOSIT' ? (
-                          <ArrowUpRight className="h-4 w-4 text-emerald-600" />
+                          <ArrowUpRight className="h-3 w-3 sm:h-4 sm:w-4 text-emerald-600" />
                         ) : transaction.type === 'WITHDRAWAL' ? (
-                          <ArrowDownRight className="h-4 w-4 text-red-600" />
+                          <ArrowDownRight className="h-3 w-3 sm:h-4 sm:w-4 text-red-600" />
                         ) : (
-                          <TrendingUp className="h-4 w-4 text-blue-600" />
+                          <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600" />
                         )}
                       </div>
-                      <div>
-                        <p className="font-semibold text-slate-900 text-sm">{transaction.type?.replace('_', ' ')}</p>
-                        <p className="text-xs text-slate-500">{transaction.user?.firstName} {transaction.user?.lastName}</p>
+                      <div className="min-w-0">
+                        <p className="text-xs sm:text-sm font-medium text-slate-900 truncate">
+                          {transaction.type?.replace('_', ' ')}
+                        </p>
+                        <p className="text-[10px] text-slate-500 truncate">
+                          {transaction.user?.firstName} {transaction.user?.lastName}
+                        </p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className={`text-sm font-semibold ${
+                    <div className="text-right flex-shrink-0 ml-2">
+                      <p className={`text-xs sm:text-sm font-semibold ${
                         transaction.type === 'DEPOSIT' ? 'text-emerald-600' : 
                         transaction.type === 'WITHDRAWAL' ? 'text-red-600' : 'text-blue-600'
                       }`}>
                         {transaction.type === 'DEPOSIT' ? '+' : transaction.type === 'WITHDRAWAL' ? '-' : ''}
                         Kshs {transaction.amount?.toLocaleString() || 0}
                       </p>
-                      <p className="text-xs text-slate-400">{new Date(transaction.createdAt).toLocaleDateString()}</p>
+                      <p className="text-[10px] text-slate-400">
+                        {new Date(transaction.createdAt).toLocaleDateString()}
+                      </p>
                     </div>
                   </div>
                 ))
               )}
             </div>
           </div>
+        </div>
+
+        {/* Footer */}
+        <div className="mt-6 sm:mt-8 text-center text-[10px] sm:text-xs text-slate-500">
+          <p>© {new Date().getFullYear()} Kaplans SACCO. All rights reserved.</p>
         </div>
       </div>
     </div>
