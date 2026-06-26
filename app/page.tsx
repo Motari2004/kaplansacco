@@ -453,52 +453,73 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features Section - Image on Left */}
-      <section id="features" className="relative py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-12">
-            <div className="relative order-1 lg:order-1">
-              <img
-                src="/images/sacco-features.jpg"
-                alt="Kaplans SACCO Features"
-                className="w-full h-56 object-cover rounded-2xl shadow-md"
-              />
-            </div>
-            <div className="order-2">
-              <div className="inline-flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-200 mb-3">
-                <Star className="h-3.5 w-3.5 text-amber-500" />
-                <span className="text-xs font-medium text-slate-700">Core Features</span>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold">
-                <span className="text-slate-900">Why Choose </span>
-                <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Kaplans</span>
-              </h2>
-              <p className="text-base text-slate-600 mt-2">
-                Professional financial services designed for your success
-              </p>
-            </div>
-          </div>
 
-          <div className="grid md:grid-cols-3 gap-5">
-            {features.map((feature, index) => {
-              const Icon = feature.icon
-              return (
-                <div key={index} className="bg-white p-5 rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-slate-200 group">
-                  <div className={`inline-flex p-2 rounded-lg ${feature.iconBg} mb-3 group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className={`h-5 w-5 ${feature.iconColor}`} />
-                  </div>
-                  <h3 className="text-base font-bold text-slate-900 mb-1">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-              )
-            })}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* Features Section - No Image */}
+<section id="features" className="relative py-12">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center max-w-3xl mx-auto mb-12">
+      <div className="inline-flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-200 mb-3">
+        <Star className="h-3.5 w-3.5 text-amber-500" />
+        <span className="text-xs font-medium text-slate-700">Core Features</span>
+      </div>
+      <h2 className="text-3xl md:text-4xl font-bold">
+        <span className="text-slate-900">Why Choose </span>
+        <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Kaplans</span>
+      </h2>
+      <p className="text-base text-slate-600 mt-2">
+        Professional financial services designed for your success
+      </p>
+    </div>
+
+    <div className="grid md:grid-cols-3 gap-5">
+      {features.map((feature, index) => {
+        const Icon = feature.icon
+        return (
+          <div key={index} className="bg-white p-5 rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-slate-200 group">
+            <div className={`inline-flex p-2 rounded-lg ${feature.iconBg} mb-3 group-hover:scale-110 transition-transform duration-300`}>
+              <Icon className={`h-5 w-5 ${feature.iconColor}`} />
+            </div>
+            <h3 className="text-base font-bold text-slate-900 mb-1">
+              {feature.title}
+            </h3>
+            <p className="text-sm text-slate-500 leading-relaxed">
+              {feature.description}
+            </p>
           </div>
-        </div>
-      </section>
+        )
+      })}
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       {/* Savings Section - Image on Right */}
       <section id="savings" className="relative py-12 bg-slate-50/50 border-y border-slate-200/50">
