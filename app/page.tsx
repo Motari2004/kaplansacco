@@ -350,87 +350,73 @@ export default function HomePage() {
 
 
 
-
-
-
-
-{/* Hero Section - Full Screen Background */}
-<section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-  {/* Background Image with Parallax */}
+{/* Hero Section - Image as Background, Content Moved Down Slightly */}
+<section className="relative pt-6 pb-12 overflow-hidden">
+  {/* Background Image */}
   <div className="absolute inset-0 z-0">
     <img
       src="/images/sacco-hero.jpg"
       alt="Kaplans SACCO"
-      className="w-full h-full object-cover scale-105"
+      className="w-full h-full object-cover"
     />
-    {/* Gradient Overlay */}
-    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
-    {/* Decorative Gradient Overlay */}
-    <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+    {/* Dark Overlay for better text readability */}
+    <div className="absolute inset-0 bg-black/50"></div>
   </div>
   
-  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-    <div className="text-center max-w-4xl mx-auto">
-      <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30 text-sm mb-6 animate-fade-in">
-        <span className="text-white font-medium tracking-wide">KAPLANS SAVINGS AND CREDIT CO-OPERATIVE</span>
+  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center max-w-4xl mx-auto py-8 md:py-12">
+      <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30 text-sm mb-5">
+        <span className="text-white font-medium">KAPLANS SAVINGS AND CREDIT CO-OPERATIVE</span>
       </div>
       
-      <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight text-white mb-6 animate-fade-in-up">
+      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white">
         Your{' '}
-        <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">Financial</span>
+        <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">Financial</span>
         <br />
         <span className="text-white">Growth Partner</span>
       </h1>
       
-      <p className="text-lg md:text-xl text-white/90 leading-relaxed max-w-2xl mx-auto mb-8 animate-fade-in-up animation-delay-200">
+      <p className="text-lg text-white/90 leading-relaxed max-w-2xl mx-auto mt-4">
         Kaplans SACCO provides secure, reliable, and member-focused financial 
         services to help you achieve your financial goals.
       </p>
 
-      <div className="flex flex-wrap gap-4 justify-center animate-fade-in-up animation-delay-400">
+      <div className="flex flex-wrap gap-3 justify-center mt-5">
         <Link
           href="/register"
-          className="group px-8 py-4 rounded-xl font-semibold text-white text-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105 flex items-center"
+          className="relative group px-6 py-3 rounded-xl font-semibold text-white overflow-hidden text-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105"
         >
-          Get Started
-          <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+          <span className="relative z-10 flex items-center">
+            Get Started
+            <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+          </span>
         </Link>
         <Link
           href="#features"
-          className="px-8 py-4 rounded-xl font-semibold text-white backdrop-blur-sm bg-white/20 border border-white/30 hover:bg-white/30 transition-all duration-300 hover:scale-105 flex items-center text-sm"
+          className="px-6 py-3 rounded-xl font-semibold text-white backdrop-blur-sm bg-white/20 border border-white/30 hover:bg-white/30 transition-all duration-300 hover:scale-105 flex items-center text-sm"
         >
           Learn More
           <ChevronRight className="h-4 w-4 ml-1" />
         </Link>
       </div>
 
-      <div className="flex flex-wrap items-center justify-center gap-6 text-sm mt-8 animate-fade-in-up animation-delay-600">
+      <div className="flex flex-wrap items-center justify-center gap-4 text-sm mt-5">
         <div className="flex items-center text-white/80">
-          <BadgeCheck className="h-4 w-4 text-emerald-400 mr-2" />
+          <BadgeCheck className="h-4 w-4 text-emerald-400 mr-1.5" />
           <span>Member-Owned</span>
         </div>
         <div className="flex items-center text-white/80">
-          <BadgeCheck className="h-4 w-4 text-emerald-400 mr-2" />
+          <BadgeCheck className="h-4 w-4 text-emerald-400 mr-1.5" />
           <span>Fully Regulated</span>
         </div>
         <div className="flex items-center text-white/80">
-          <BadgeCheck className="h-4 w-4 text-emerald-400 mr-2" />
+          <BadgeCheck className="h-4 w-4 text-emerald-400 mr-1.5" />
           <span>Est. 2010</span>
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-1">
-          <div className="w-1.5 h-3 bg-white/50 rounded-full animate-pulse"></div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-
-
 
 
 
