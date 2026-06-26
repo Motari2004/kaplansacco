@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // url is now defined in prisma.config.ts
+}
+
+model User {
+  id                String    @id @default(cuid())
+  firstName         String
+  lastName          String
+  email             String    @unique
+  phone             String
+  idNumber          String    @unique
+  password          String
+  memberNumber      String    @unique
+  monthlyContribution Float   @default(1000)
+  shares            Int       @default(0)
+  savingsBalance    Float     @default(0)
+  status            String    @default("ACTIVE")
+  role              String    @default("MEMBER")
+  physicalAddress   String?
+  postalAddress     String?
+  idDocument        String? 
+  lastContributionDate DateTime? 
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  loans             Loan[]
+  transactions      Transaction[]
+  contributions     Contribution[]
+  guarantors        Guarantor[]
+  withdrawals       Withdrawal[] // Add this line
+}
+
+model Loan {
+  id                String    @id @default(cuid())
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount            Float
+  interestRate      Float     @default(0.12)
+  totalRepayable    Float
+  monthlyInstallment Float
+  termMonths        Int       @default(36)
+  purpose           String?
+  status            String    @default("PENDING")
+  approvalDate      DateTime?
+  disbursementDate  DateTime?
+  dueDate           DateTime
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  payments          LoanPayment[]
+}
+
+model LoanPayment {
+  id                String    @id @default(cuid())
+  loanId            String
+  loan              Loan      @relation(fields: [loanId], references: [id], onDelete: Cascade)
+  amount            Float
+  paymentDate       DateTime  @default(now())
+  receiptNo         String    @unique
+  status            String    @default("COMPLETED")
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Transaction {
+  id                String    @id @default(cuid())
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type              String
+  amount            Float
+  description       String?
+  reference         String?   @unique
+  status            String    @default("COMPLETED")
+  receiptNo         String?   @unique
+  processedBy       String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Contribution {
+  id                String    @id @default(cuid())
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  month             DateTime
+  amount            Float
+  paidDate          DateTime  @default(now())
+  status            String    @default("PAID")
+  receiptNo         String    @unique
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Guarantor {
+  id                String    @id @default(cuid())
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName          String
+  phone             String
+  email             String?
+  status            String    @default("PENDING")
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+// Add Withdrawal model
+model Withdrawal {
+  id                String    @id @default(cuid())
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount            Float
+  method            String    // 'mpesa' or 'bank'
+  phoneNumber       String?
+  bankName          String?
+  accountNumber     String?
+  accountName       String?
+  status            String    @default("PENDING") // PENDING, COMPLETED, REJECTED
+  reference         String?   @unique
+  processedBy       String?
+  processedAt       DateTime?
+  notes             String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
