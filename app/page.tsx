@@ -372,7 +372,7 @@ export default function HomePage() {
   <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
     <div className="text-center max-w-4xl mx-auto">
       <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30 text-sm mb-6 animate-fade-in">
-        <span className="text-white font-medium tracking-wide">🏦 KAPLANS SAVINGS AND CREDIT CO-OPERATIVE</span>
+        <span className="text-white font-medium tracking-wide">KAPLANS SAVINGS AND CREDIT CO-OPERATIVE</span>
       </div>
       
       <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight text-white mb-6 animate-fade-in-up">
