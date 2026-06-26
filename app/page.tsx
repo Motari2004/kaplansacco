@@ -341,90 +341,125 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero Section - Image on Right */}
-      <section className="relative pt-12 pb-16 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-200 text-sm">
-                <span className="text-slate-700">KAPLANS SAVINGS AND CREDIT CO-OPERATIVE</span>
-              </div>
-              
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                Your{' '}
-                <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Financial</span>
-                <br />
-                <span className="text-slate-900">Growth Partner</span>
-              </h1>
-              
-              <p className="text-lg text-slate-600 leading-relaxed max-w-lg">
-                Kaplans SACCO provides secure, reliable, and member-focused financial 
-                services to help you achieve your financial goals.
-              </p>
 
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/register"
-                  className="relative group px-6 py-3 rounded-xl font-semibold text-white overflow-hidden text-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105"
-                >
-                  <span className="relative z-10 flex items-center">
-                    Get Started
-                    <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </Link>
-                <Link
-                  href="#features"
-                  className="px-6 py-3 rounded-xl font-semibold text-slate-700 hover:bg-slate-50 transition-all duration-300 hover:scale-105 flex items-center text-sm border border-slate-200"
-                >
-                  Learn More
-                  <ChevronRight className="h-4 w-4 ml-1" />
-                </Link>
-              </div>
 
-              <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">
-                <div className="flex items-center">
-                  <BadgeCheck className="h-4 w-4 text-emerald-500 mr-1.5" />
-                  <span>Member-Owned</span>
-                </div>
-                <div className="flex items-center">
-                  <BadgeCheck className="h-4 w-4 text-emerald-500 mr-1.5" />
-                  <span>Fully Regulated</span>
-                </div>
-                <div className="flex items-center">
-                  <BadgeCheck className="h-4 w-4 text-emerald-500 mr-1.5" />
-                  <span>Est. 2010</span>
-                </div>
-              </div>
-            </div>
 
-            {/* Hero Image - Right */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-2xl"></div>
-              <div className="relative bg-white p-3 rounded-3xl border border-slate-200 shadow-xl">
-                <img
-                  src="/images/sacco-hero.jpg"
-                  alt="Kaplans SACCO"
-                  className="w-full h-80 object-cover rounded-2xl"
-                />
-                <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-xl border border-slate-200">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-xs text-slate-500">Join Today</p>
-                      <p className="text-sm font-bold text-slate-900">Start Your Journey</p>
-                    </div>
-                    <Link
-                      href="/register"
-                      className="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105"
-                    >
-                      Apply Now
-                    </Link>
-                  </div>
-                </div>
+
+
+
+
+
+
+
+
+
+
+{/* Hero Section - Centered */}
+<section className="relative pt-12 pb-16 overflow-hidden">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center max-w-4xl mx-auto">
+      <div className="inline-flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-200 text-sm mb-6">
+        <span className="text-slate-700">KAPLANS SAVINGS AND CREDIT CO-OPERATIVE</span>
+      </div>
+      
+      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+        Your{' '}
+        <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Financial</span>
+        <br />
+        <span className="text-slate-900">Growth Partner</span>
+      </h1>
+      
+      <p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto mt-4">
+        Kaplans SACCO provides secure, reliable, and member-focused financial 
+        services to help you achieve your financial goals.
+      </p>
+
+      <div className="flex flex-wrap gap-3 justify-center mt-6">
+        <Link
+          href="/register"
+          className="relative group px-6 py-3 rounded-xl font-semibold text-white overflow-hidden text-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105"
+        >
+          <span className="relative z-10 flex items-center">
+            Get Started
+            <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+          </span>
+        </Link>
+        <Link
+          href="#features"
+          className="px-6 py-3 rounded-xl font-semibold text-slate-700 hover:bg-slate-50 transition-all duration-300 hover:scale-105 flex items-center text-sm border border-slate-200"
+        >
+          Learn More
+          <ChevronRight className="h-4 w-4 ml-1" />
+        </Link>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-slate-500 mt-6">
+        <div className="flex items-center">
+          <BadgeCheck className="h-4 w-4 text-emerald-500 mr-1.5" />
+          <span>Member-Owned</span>
+        </div>
+        <div className="flex items-center">
+          <BadgeCheck className="h-4 w-4 text-emerald-500 mr-1.5" />
+          <span>Fully Regulated</span>
+        </div>
+        <div className="flex items-center">
+          <BadgeCheck className="h-4 w-4 text-emerald-500 mr-1.5" />
+          <span>Est. 2010</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Optional: Add a decorative image below the text or remove the image entirely */}
+    <div className="mt-12 flex justify-center">
+      <div className="relative w-full max-w-3xl">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-2xl"></div>
+        <div className="relative bg-white p-3 rounded-3xl border border-slate-200 shadow-xl">
+          <img
+            src="/images/sacco-hero.jpg"
+            alt="Kaplans SACCO"
+            className="w-full h-64 md:h-80 object-cover rounded-2xl"
+          />
+          <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-xl border border-slate-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs text-slate-500">Join Today</p>
+                <p className="text-sm font-bold text-slate-900">Start Your Journey</p>
               </div>
+              <Link
+                href="/register"
+                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs rounded-lg hover:shadow-lg transition-all duration-300 hover:scale-105"
+              >
+                Apply Now
+              </Link>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       {/* Stats Section */}
       <section className="relative py-8 border-y border-slate-200/50 bg-slate-50/50">
