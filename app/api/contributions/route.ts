@@ -34,7 +34,7 @@ export async function GET() {
     })
 
     // Total contributions (monthly savings deposits only)
-    const totalSaved = contributions.reduce((sum, c) => sum + c.amount, 0)
+    const totalSaved = contributions.reduce((sum: number, c: any) => sum + c.amount, 0)
 
     return NextResponse.json({
       contributions,
