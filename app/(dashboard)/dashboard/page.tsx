@@ -242,7 +242,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-slate-50/50 p-3 sm:p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 mb-4 sm:mb-6 md:mb-8 border border-slate-200/50">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 mb-4 sm:mb-6 border border-slate-200/50">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
             <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
               <div className="relative flex-shrink-0">
@@ -293,13 +293,13 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Stats Grid - Mobile: 2 columns, Desktop: 4 columns */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6 md:mb-8">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6">
           {stats.map((stat, index) => {
             const Icon = stat.icon
             return (
               <div key={index} className="bg-white rounded-xl sm:rounded-2xl shadow-sm p-3 sm:p-4 md:p-6 hover:shadow-md transition-all duration-300 hover:-translate-y-1 border border-slate-200/50">
-                <div className="flex items-center justify-between mb-2 sm:mb-3 md:mb-4">
+                <div className="flex items-center justify-between mb-2 sm:mb-3">
                   <div className={`inline-flex p-1.5 sm:p-2 md:p-2.5 rounded-lg sm:rounded-xl bg-gradient-to-br ${stat.gradient}`}>
                     <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-white" />
                   </div>
@@ -321,7 +321,7 @@ export default function DashboardPage() {
           })}
         </div>
 
-        {/* Quick Actions & Recent Activity - Mobile: stacked, Desktop: 2 columns */}
+        {/* Quick Actions & Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* Quick Actions */}
           <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 border border-slate-200/50">
@@ -393,6 +393,7 @@ export default function DashboardPage() {
         {/* Footer */}
         <div className="mt-6 sm:mt-8 text-center text-[10px] sm:text-xs text-slate-500">
           <p>© {new Date().getFullYear()} Kaplans SACCO. All rights reserved.</p>
+          <p className="text-[8px] sm:text-[10px] mt-0.5">Powered by Premium Technology</p>
         </div>
       </div>
     </div>
