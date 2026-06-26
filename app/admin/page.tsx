@@ -18,7 +18,8 @@ import {
   Settings,
   LogOut,
   FileText,
-  Bell
+  Bell,
+  Trash2  // Added
 } from 'lucide-react'
 
 export default function AdminDashboard() {
@@ -125,89 +126,53 @@ export default function AdminDashboard() {
     { name: 'Loans', icon: CreditCard, href: '/admin/loans', color: 'text-emerald-600', bg: 'bg-emerald-50' },
     { name: 'Withdrawals', icon: Wallet, href: '/admin/withdrawals', color: 'text-amber-600', bg: 'bg-amber-50' },
     { name: 'Reports', icon: FileText, href: '/admin/reports', color: 'text-purple-600', bg: 'bg-purple-50' },
+    { name: 'Clean Savings', icon: Trash2, href: '/admin/clean-savings', color: 'text-red-600', bg: 'bg-red-50' },
   ]
 
   return (
     <div className="min-h-screen bg-slate-50/50 p-3 sm:p-4 md:p-6">
+      {/* Navigation */}
+      <nav className="border-b border-slate-200/50 mb-4 sm:mb-6">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
+          <div className="flex items-center justify-between h-14 sm:h-16">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-lg overflow-hidden bg-white border border-slate-200 flex items-center justify-center flex-shrink-0">
+                <img src="/images/logo.jpg" alt="Logo" className="w-full h-full object-contain p-1" />
+              </div>
+              <div>
+                <span className="text-sm sm:text-base md:text-xl font-bold text-slate-900">Admin Panel</span>
+                <div className="hidden sm:block">
+                  <span className="text-[10px] text-slate-500 font-medium">Kaplans SACCO</span>
+                </div>
+              </div>
+            </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* Navigation - No Background */}
-<nav className="border-b border-slate-200/50">
-  <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
-    <div className="flex items-center justify-between h-14 sm:h-16">
-      <div className="flex items-center gap-2 sm:gap-3">
-        <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-lg overflow-hidden bg-white border border-slate-200 flex items-center justify-center flex-shrink-0">
-          <img src="/images/logo.JPG" alt="Logo" className="w-full h-full object-contain p-1" />
-        </div>
-        <div>
-          <span className="text-sm sm:text-base md:text-xl font-bold text-slate-900">Admin Panel</span>
-          <div className="hidden sm:block">
-            <span className="text-[10px] text-slate-500 font-medium">Kaplans SACCO</span>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <button className="relative p-1.5 sm:p-2 rounded-lg hover:bg-slate-100 transition-colors">
+                <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-slate-600" />
+                <span className="absolute top-0.5 right-0.5 h-1.5 w-1.5 bg-red-500 rounded-full" />
+              </button>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="text-right hidden xs:block">
+                  <p className="text-xs sm:text-sm font-medium text-slate-900 truncate max-w-[80px] sm:max-w-none">
+                    {session.user?.name || 'Admin'}
+                  </p>
+                  <p className="text-[10px] text-slate-500 hidden sm:block">Administrator</p>
+                </div>
+                <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <UserCircle className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
+                </div>
+                <button
+                  onClick={() => signOut({ callbackUrl: '/login' })}
+                  className="p-1.5 sm:p-2 rounded-lg hover:bg-slate-100 transition-colors"
+                >
+                  <LogOut className="h-4 w-4 sm:h-5 sm:w-5 text-slate-600" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="flex items-center gap-2 sm:gap-3">
-        <button className="relative p-1.5 sm:p-2 rounded-lg hover:bg-slate-100 transition-colors">
-          <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-slate-600" />
-          <span className="absolute top-0.5 right-0.5 h-1.5 w-1.5 bg-red-500 rounded-full" />
-        </button>
-        <div className="flex items-center gap-2 sm:gap-3">
-          <div className="text-right hidden xs:block">
-            <p className="text-xs sm:text-sm font-medium text-slate-900 truncate max-w-[80px] sm:max-w-none">
-              {session.user?.name || 'Admin'}
-            </p>
-            <p className="text-[10px] text-slate-500 hidden sm:block">Administrator</p>
-          </div>
-          <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
-            <UserCircle className="h-4 w-4 sm:h-6 sm:w-6 text-white" />
-          </div>
-          <button
-            onClick={() => signOut({ callbackUrl: '/login' })}
-            className="p-1.5 sm:p-2 rounded-lg hover:bg-slate-100 transition-colors"
-          >
-            <LogOut className="h-4 w-4 sm:h-5 sm:w-5 text-slate-600" />
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      </nav>
 
       <div className="max-w-7xl mx-auto">
         {/* Welcome Section */}
@@ -237,7 +202,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6">
           {quickActions.map((action) => {
             const Icon = action.icon
             return (
@@ -254,6 +219,8 @@ export default function AdminDashboard() {
                   <p className="text-[10px] text-slate-500 hidden sm:block truncate">
                     {action.name === 'Withdrawals' && stats.pendingWithdrawals > 0 
                       ? `${stats.pendingWithdrawals} pending` 
+                      : action.name === 'Clean Savings'
+                      ? 'Reset savings'
                       : `Manage ${action.name.toLowerCase()}`}
                   </p>
                 </div>

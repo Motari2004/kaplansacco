@@ -3,6 +3,7 @@
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { CheckCircle, XCircle } from 'lucide-react'
 import { 
   CreditCard, 
   PiggyBank, 
@@ -110,7 +111,7 @@ export default function DashboardPage() {
     }
   }
 
-  const getActivityIcon = (type: string) => {
+  const getActivityIcon = (type: string, status?: string) => {
     switch (type) {
       case 'LOAN_PAYMENT':
         return <ArrowUpRight className="h-3.5 w-3.5 text-emerald-600" />
@@ -118,10 +119,37 @@ export default function DashboardPage() {
         return <PiggyBank className="h-3.5 w-3.5 text-blue-600" />
       case 'LOAN_APPLICATION':
         return <CreditCard className="h-3.5 w-3.5 text-purple-600" />
+      case 'LOAN_APPROVED':
+        return <CheckCircle className="h-3.5 w-3.5 text-emerald-600" />
+      case 'LOAN_DISBURSED':
+        return <CheckCircle className="h-3.5 w-3.5 text-blue-600" />
+      case 'LOAN_REJECTED':
+        return <XCircle className="h-3.5 w-3.5 text-red-600" />
       case 'WITHDRAWAL':
         return <ArrowDownRight className="h-3.5 w-3.5 text-red-600" />
       default:
         return <TrendingUp className="h-3.5 w-3.5 text-slate-600" />
+    }
+  }
+
+  const getActivityTitle = (type: string) => {
+    switch (type) {
+      case 'LOAN_APPLICATION':
+        return 'Loan Application Submitted'
+      case 'LOAN_APPROVED':
+        return 'Loan Application Approved'
+      case 'LOAN_DISBURSED':
+        return 'Loan Funds Disbursed'
+      case 'LOAN_REJECTED':
+        return 'Loan Application Rejected'
+      case 'LOAN_PAYMENT':
+        return 'Loan Payment Made'
+      case 'CONTRIBUTION':
+        return 'Savings Contribution'
+      case 'WITHDRAWAL':
+        return 'Withdrawal Request'
+      default:
+        return type.replace('_', ' ')
     }
   }
 
@@ -133,6 +161,12 @@ export default function DashboardPage() {
         return 'bg-blue-100 text-blue-700'
       case 'LOAN_APPLICATION':
         return 'bg-purple-100 text-purple-700'
+      case 'LOAN_APPROVED':
+        return 'bg-emerald-100 text-emerald-700'
+      case 'LOAN_DISBURSED':
+        return 'bg-blue-100 text-blue-700'
+      case 'LOAN_REJECTED':
+        return 'bg-red-100 text-red-700'
       case 'WITHDRAWAL':
         return 'bg-red-100 text-red-700'
       default:
@@ -199,7 +233,7 @@ export default function DashboardPage() {
       bg: 'bg-blue-50'
     },
     { 
-      label: 'Pending Apps', 
+      label: 'Loan Applications', 
       value: loanStats.pendingLoans.toString(),
       icon: Clock,
       color: 'text-amber-600',
@@ -237,10 +271,7 @@ export default function DashboardPage() {
                   Welcome back, {session.user?.name || 'Member'}!
                 </h1>
                 <div className="flex flex-wrap items-center gap-1.5 mt-0.5">
-                  <span className="text-xs bg-slate-100 px-2 py-0.5 rounded-full text-slate-600">Premium</span>
-                  <span className="text-xs bg-slate-100 px-2 py-0.5 rounded-full text-slate-600">
-                    {userStats.memberSince ? new Date(userStats.memberSince).getFullYear() : '2024'}
-                  </span>
+                  <span className="text-xs bg-slate-100 px-2 py-0.5 rounded-full text-slate-600">Dashboard</span>
                   {userStats.pendingWithdrawals > 0 && (
                     <span className="text-xs bg-amber-50 px-2 py-0.5 rounded-full text-amber-600 border border-amber-200">
                       {userStats.pendingWithdrawals} pending
@@ -254,9 +285,13 @@ export default function DashboardPage() {
                 <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-slate-600" />
                 <span className="absolute -top-0.5 -right-0.5 h-2 w-2 bg-red-500 rounded-full" />
               </button>
-              <button className="bg-slate-100 p-2 rounded-lg hover:bg-slate-200 transition-colors border border-slate-200">
+              {/* Settings Button - Now links to /settings */}
+              <Link
+                href="/settings"
+                className="bg-slate-100 p-2 rounded-lg hover:bg-slate-200 transition-colors border border-slate-200"
+              >
                 <Settings className="h-4 w-4 sm:h-5 sm:w-5 text-slate-600" />
-              </button>
+              </Link>
               <button
                 onClick={() => signOut({ callbackUrl: '/login' })}
                 className="bg-slate-100 p-2 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors border border-slate-200 text-red-500"
@@ -285,11 +320,19 @@ export default function DashboardPage() {
           })}
         </div>
 
+
+
+
+
+
+
+
         {/* Quick Actions & Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Quick Actions */}
           <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 border border-slate-200">
             <h3 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
+
               Quick Actions
             </h3>
             <div className="grid grid-cols-2 gap-2">
@@ -330,7 +373,7 @@ export default function DashboardPage() {
                         {getActivityIcon(activity.type)}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="text-xs font-medium text-slate-700 truncate">{activity.title}</p>
+                        <p className="text-xs font-medium text-slate-700 truncate">{getActivityTitle(activity.type)}</p>
                         <p className="text-[10px] text-slate-500 flex items-center gap-1">
                           <Clock className="h-2.5 w-2.5" />
                           {formatTimeAgo(activity.createdAt)}

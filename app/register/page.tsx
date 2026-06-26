@@ -15,7 +15,13 @@ import {
   CheckCircle,
   AlertCircle,
   Upload,
-  Info
+  Info,
+  DollarSign,
+  Receipt,
+  Smartphone,
+  Send,
+  Loader2,
+  Home
 } from 'lucide-react'
 
 export default function RegisterPage() {
@@ -27,6 +33,13 @@ export default function RegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [agreeToTerms, setAgreeToTerms] = useState(false)
   const [uploadedFile, setUploadedFile] = useState<File | null>(null)
+  const [showFeeScreen, setShowFeeScreen] = useState(false)
+  const [memberData, setMemberData] = useState<any>(null)
+  const [feePaid, setFeePaid] = useState(false)
+  const [paymentMethod, setPaymentMethod] = useState('mpesa')
+  const [mpesaNumber, setMpesaNumber] = useState('')
+  const [stkPushSent, setStkPushSent] = useState(false)
+  const [paymentStatus, setPaymentStatus] = useState('idle')
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -66,7 +79,6 @@ export default function RegisterPage() {
     }
 
     try {
-      // Create FormData for file upload
       const submitData = new FormData()
       submitData.append('firstName', formData.firstName)
       submitData.append('lastName', formData.lastName)
@@ -81,33 +93,324 @@ export default function RegisterPage() {
 
       const response = await fetch('/api/auth/register', {
         method: 'POST',
-        body: submitData, // Don't set Content-Type header - browser will set it with boundary
+        body: submitData,
       })
 
       const data = await response.json()
 
       if (response.ok) {
-        let successMessage = `Member registered successfully! Member Number: ${data.memberNumber}`
-        if (data.idUploaded) {
-          successMessage += ' ✅ ID uploaded successfully!'
-        }
-        setSuccess(successMessage)
-        setTimeout(() => {
-          router.push('/login')
-        }, 3000)
+        setMemberData({
+          memberNumber: data.memberNumber,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          registrationFee: 1500,
+          monthlyContribution: formData.monthlyContribution,
+        })
+        setMpesaNumber(formData.phone)
+        setShowFeeScreen(true)
+        setLoading(false)
       } else {
         setError(data.message || 'Registration failed')
+        setLoading(false)
       }
     } catch (error) {
       setError('An error occurred. Please try again.')
-    } finally {
       setLoading(false)
     }
   }
 
+  const handleMpesaPayment = async () => {
+    if (!mpesaNumber || mpesaNumber.length < 10) {
+      setError('Please enter a valid M-Pesa phone number')
+      return
+    }
+
+    setPaymentStatus('processing')
+    setError('')
+    setStkPushSent(false)
+
+    try {
+      const response = await fetch('/api/auth/mpesa-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          memberNumber: memberData.memberNumber,
+          amount: 1500,
+          phoneNumber: mpesaNumber,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setStkPushSent(true)
+        setPaymentStatus('success')
+        setSuccess('STK Push sent to your phone! Please enter your M-Pesa PIN to complete payment.')
+        
+        setTimeout(async () => {
+          try {
+            const confirmResponse = await fetch('/api/auth/confirm-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                memberNumber: memberData.memberNumber,
+                transactionId: data.transactionId,
+              }),
+            })
+            
+            if (confirmResponse.ok) {
+              setFeePaid(true)
+              setSuccess('Payment confirmed! Account activated successfully.')
+              setTimeout(() => {
+                router.push('/login')
+              }, 3000)
+            }
+          } catch (error) {
+            setError('Payment confirmation failed. Please contact support.')
+          }
+        }, 5000)
+      } else {
+        setError(data.message || 'Payment request failed')
+        setPaymentStatus('failed')
+      }
+    } catch (error) {
+      setError('Payment processing failed. Please try again.')
+      setPaymentStatus('failed')
+    }
+  }
+
+  // If showing fee screen
+  if (showFeeScreen) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden" style={{
+        background: 'linear-gradient(135deg, #8b8b8b 0%, #969696 50%, #a7a7a7 100%)'
+      }}>
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-200/40 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-200/40 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-100/30 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="w-full max-w-md relative z-10">
+          <div className="p-8 rounded-3xl border shadow-2xl relative" style={{
+            background: 'linear-gradient(145deg, rgba(167, 167, 167, 0.95), rgba(184, 184, 184, 0.95))',
+            borderColor: 'rgba(255,255,255,0.3)',
+            backdropFilter: 'blur(20px)'
+          }}>
+            {/* Home Button - Inside Container Top Left */}
+            <Link
+              href="/"
+              className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-white/20 transition-all duration-200"
+            >
+              <Home className="h-4 w-4 text-slate-600" />
+              <span className="text-xs font-medium text-slate-600">Home</span>
+            </Link>
+
+            {!feePaid ? (
+              <>
+                {/* Header */}
+                <div className="text-center mb-6">
+                  <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3">
+                    <Receipt className="h-8 w-8 text-blue-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-slate-800">Registration Fee</h2>
+                  <p className="text-sm text-slate-500 mt-1">Complete your membership by paying the registration fee</p>
+                </div>
+
+                {/* Member Details */}
+                <div className="bg-slate-50 rounded-xl p-4 mb-6 border border-slate-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-slate-500">Member Number</span>
+                    <span className="text-sm font-bold text-slate-900">{memberData?.memberNumber}</span>
+                  </div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-slate-500">Name</span>
+                    <span className="text-sm font-medium text-slate-900">{memberData?.firstName} {memberData?.lastName}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-slate-500">Email</span>
+                    <span className="text-sm font-medium text-slate-900">{memberData?.email}</span>
+                  </div>
+                </div>
+
+                {/* Fee Details */}
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-6 border border-blue-200/50">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm text-slate-600">Registration Fee</span>
+                    <span className="text-2xl font-bold text-blue-600">Kshs 1,500</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-slate-500">Monthly Contribution</span>
+                    <span className="font-medium text-slate-700">Kshs {memberData?.monthlyContribution?.toLocaleString()}</span>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-blue-200/50 flex items-center gap-2 text-xs text-blue-600">
+                    <Info className="h-3 w-3" />
+                    <span>One-time non-refundable fee</span>
+                  </div>
+                </div>
+
+                {/* Payment Options */}
+                <div className="mb-6">
+                  <h3 className="text-sm font-semibold text-slate-700 mb-3">Payment Method</h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('mpesa')}
+                      className={`p-4 rounded-xl border-2 transition-all ${
+                        paymentMethod === 'mpesa'
+                          ? 'border-emerald-500 bg-emerald-50/50 shadow-sm'
+                          : 'border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <Smartphone className={`h-5 w-5 ${paymentMethod === 'mpesa' ? 'text-emerald-600' : 'text-slate-400'}`} />
+                        <div className="text-left">
+                          <p className={`text-sm font-medium ${paymentMethod === 'mpesa' ? 'text-emerald-700' : 'text-slate-700'}`}>M-Pesa</p>
+                          <p className="text-xs text-slate-400">STK Push</p>
+                        </div>
+                      </div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('bank')}
+                      className={`p-4 rounded-xl border-2 transition-all ${
+                        paymentMethod === 'bank'
+                          ? 'border-blue-500 bg-blue-50/50 shadow-sm'
+                          : 'border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <CreditCard className={`h-5 w-5 ${paymentMethod === 'bank' ? 'text-blue-600' : 'text-slate-400'}`} />
+                        <div className="text-left">
+                          <p className={`text-sm font-medium ${paymentMethod === 'bank' ? 'text-blue-700' : 'text-slate-700'}`}>Bank Transfer</p>
+                          <p className="text-xs text-slate-400">Direct deposit</p>
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+
+                {/* M-Pesa Input */}
+                {paymentMethod === 'mpesa' && (
+                  <div className="mb-6">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                      M-Pesa Phone Number
+                    </label>
+                    <div className="relative">
+                      <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                      <input
+                        type="tel"
+                        value={mpesaNumber}
+                        onChange={(e) => setMpesaNumber(e.target.value)}
+                        placeholder="0712345678"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all outline-none bg-white/70 backdrop-blur-sm"
+                      />
+                    </div>
+                    <p className="text-xs text-slate-400 mt-1">You will receive an STK Push on this number</p>
+                  </div>
+                )}
+
+                {error && (
+                  <div className="rounded-xl p-3 text-sm text-center border bg-red-50/80 border-red-200/50 text-red-600 backdrop-blur-sm mb-4">
+                    {error}
+                  </div>
+                )}
+
+                {success && (
+                  <div className="rounded-xl p-3 text-sm text-center border bg-emerald-50/80 border-emerald-200/50 text-emerald-600 backdrop-blur-sm mb-4">
+                    {success}
+                  </div>
+                )}
+
+                {/* STK Push Status */}
+                {stkPushSent && (
+                  <div className="bg-emerald-50/80 rounded-xl p-4 border border-emerald-200/50 mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="animate-pulse">
+                        <Send className="h-5 w-5 text-emerald-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-emerald-700">STK Push Sent!</p>
+                        <p className="text-xs text-emerald-600">Check your phone and enter your M-Pesa PIN</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <button
+                  onClick={handleMpesaPayment}
+                  disabled={loading || paymentStatus === 'processing'}
+                  className="relative w-full group overflow-hidden py-3 rounded-xl font-semibold text-white shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 group-hover:scale-110 transition-transform duration-300"></div>
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    {paymentStatus === 'processing' ? (
+                      <>
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                        Sending STK Push...
+                      </>
+                    ) : stkPushSent ? (
+                      <>
+                        <CheckCircle className="h-5 w-5" />
+                        Waiting for Payment...
+                      </>
+                    ) : (
+                      <>
+                        <Smartphone className="h-5 w-5" />
+                        Pay with M-Pesa
+                      </>
+                    )}
+                  </span>
+                </button>
+
+                <p className="text-xs text-slate-400 text-center mt-4">
+                  You will receive an STK Push on your M-Pesa registered phone number.
+                  Enter your PIN to complete the payment.
+                </p>
+
+                <div className="mt-4 text-center text-xs text-slate-400 border-t border-slate-200 pt-4">
+                  <p>Or visit our office to pay via cash/bank transfer</p>
+                  <p className="mt-1">KAPLAN Plaza, Opposite Holy Synagogue Church</p>
+                  <p>KISII - KILGORIS ROAD</p>
+                </div>
+              </>
+            ) : (
+              // Success screen after payment
+              <div className="text-center py-8">
+                <div className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="h-10 w-10 text-emerald-600" />
+                </div>
+                <h2 className="text-2xl font-bold text-slate-800">✅ Registration Complete!</h2>
+                <p className="text-slate-600 mt-2">Your membership has been activated successfully.</p>
+                <div className="bg-slate-50 rounded-xl p-4 mt-4 border border-slate-200 text-left">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-slate-500">Member Number</span>
+                    <span className="text-sm font-bold text-slate-900">{memberData?.memberNumber}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-slate-500">Status</span>
+                    <span className="text-sm font-medium text-emerald-600">Active ✅</span>
+                  </div>
+                </div>
+                <p className="text-sm text-slate-500 mt-4">Redirecting to login...</p>
+                <div className="mt-4 w-full bg-slate-200 rounded-full h-1">
+                  <div className="bg-emerald-600 rounded-full h-1 animate-pulse" style={{ width: '100%' }}></div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Return to main registration form
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden" style={{
-      background: 'linear-gradient(135deg, #f0f4ff 0%, #e8eeff 50%, #f0f0ff 100%)'
+      background: 'linear-gradient(135deg, #8b8b8b 0%, #969696 50%, #a7a7a7 100%)'
     }}>
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-200/40 rounded-full blur-3xl"></div>
@@ -116,11 +419,20 @@ export default function RegisterPage() {
       </div>
 
       <div className="w-full max-w-2xl relative z-10">
-        <div className="p-8 rounded-3xl border shadow-2xl" style={{
-          background: 'linear-gradient(145deg, rgba(255,255,255,0.95), rgba(248,250,255,0.95))',
+        <div className="p-8 rounded-3xl border shadow-2xl relative" style={{
+          background: 'linear-gradient(145deg, rgba(167, 167, 167, 0.95), rgba(184, 184, 184, 0.95))',
           borderColor: 'rgba(255,255,255,0.3)',
           backdropFilter: 'blur(20px)'
         }}>
+          {/* Home Button - Inside Container Top Left */}
+          <Link
+            href="/"
+            className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-white/20 transition-all duration-200"
+          >
+            <Home className="h-4 w-4 text-slate-600" />
+            <span className="text-xs font-medium text-slate-600">Home</span>
+          </Link>
+
           {/* Header with Logo */}
           <div className="flex items-center gap-4 mb-6">
             <Link
@@ -295,7 +607,6 @@ export default function RegisterPage() {
               <p className="text-xs text-slate-500 mt-1">Minimum monthly contribution of Kshs 500</p>
             </div>
 
-            {/* ID Upload with Checkmark */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Upload ID (Original & Copy) *</label>
               <div className="relative">
@@ -398,29 +709,8 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <div className="p-4 rounded-xl border" style={{
-              background: 'linear-gradient(145deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05))',
-              borderColor: 'rgba(251, 191, 36, 0.2)'
-            }}>
-              <h4 className="font-semibold text-amber-700 flex items-center gap-2 text-sm">
-                <AlertCircle className="h-4 w-4" />
-                Membership Fees
-              </h4>
-              <ul className="mt-2 space-y-1.5 text-sm text-amber-600">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-3 w-3" />
-                  <span>Non-refundable registration fee: <strong className="text-amber-700">Kshs 1,500</strong></span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-3 w-3" />
-                  <span>Monthly contribution: As selected above (Minimum Kshs 500)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-3 w-3" />
-                  <span>Share capital: Kshs 100 per share</span>
-                </li>
-              </ul>
-            </div>
+
+
 
             <div className="flex items-start gap-3">
               <input

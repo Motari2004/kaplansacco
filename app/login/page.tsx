@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, Home } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -50,11 +50,20 @@ export default function LoginPage() {
       </div>
 
       <div className="w-full max-w-md relative z-10">
-        <div className="p-8 rounded-3xl border shadow-2xl" style={{
+        <div className="p-8 rounded-3xl border shadow-2xl relative" style={{
           background: 'linear-gradient(145deg, rgba(167, 167, 167, 0.95), rgba(184, 184, 184, 0.95))',
           borderColor: 'rgba(255,255,255,0.3)',
           backdropFilter: 'blur(20px)'
         }}>
+          {/* Home Button - Inside Container Top Left */}
+          <Link
+            href="/"
+            className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-white/20 transition-all duration-200"
+          >
+            <Home className="h-4 w-4 text-slate-600" />
+            <span className="text-xs font-medium text-slate-600">Home</span>
+          </Link>
+
           {/* Header with Logo */}
           <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
@@ -151,11 +160,9 @@ export default function LoginPage() {
                 <div className="w-full border-t border-blue-200/30" />
               </div>
               <div className="relative flex justify-center text-xs">
-
               </div>
             </div>
           </form>
-
         </div>
       </div>
     </div>

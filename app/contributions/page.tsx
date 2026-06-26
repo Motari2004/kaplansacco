@@ -13,10 +13,13 @@ import {
   Clock,
   AlertCircle,
   Plus,
-  Download,
-  Eye,
   DollarSign,
-  TrendingUp
+  TrendingUp,
+  Baby,
+  Gift,
+  Sparkles,
+  Building2,
+  CreditCard
 } from 'lucide-react'
 
 export default function ContributionsPage() {
@@ -33,9 +36,49 @@ export default function ContributionsPage() {
   })
   const [showModal, setShowModal] = useState(false)
   const [contributionAmount, setContributionAmount] = useState(500)
+  const [selectedSavingsType, setSelectedSavingsType] = useState('ordinary')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+
+  const savingsTypes = [
+    {
+      id: 'ordinary',
+      name: 'Ordinary Savings',
+      icon: PiggyBank,
+      description: 'Minimum monthly contribution of Kshs 500',
+      minAmount: 500,
+      color: 'from-emerald-500 to-teal-500',
+      bg: 'bg-emerald-50'
+    },
+    {
+      id: 'jenga',
+      name: 'Jenga Junior Savings',
+      icon: Baby,
+      description: 'Specially tailored accounts to help minors build financial savings',
+      minAmount: 200,
+      color: 'from-blue-500 to-indigo-500',
+      bg: 'bg-blue-50'
+    },
+    {
+      id: 'christmas',
+      name: 'Christmas Savings',
+      icon: Gift,
+      description: 'Designated account to facilitate saving for holiday expenses',
+      minAmount: 100,
+      color: 'from-amber-500 to-orange-500',
+      bg: 'bg-amber-50'
+    },
+    {
+      id: 'premium',
+      name: 'Premium Savings',
+      icon: Sparkles,
+      description: 'High-yield savings with premium benefits and higher returns',
+      minAmount: 1000,
+      color: 'from-purple-500 to-pink-500',
+      bg: 'bg-purple-50'
+    }
+  ]
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -50,11 +93,9 @@ export default function ContributionsPage() {
 
   const fetchContributions = async () => {
     try {
-      // Get contributions data
       const response = await fetch('/api/contributions')
       const data = await response.json()
       
-      // Get user profile for savings balance
       const profileResponse = await fetch('/api/user/profile')
       const profileData = await profileResponse.json()
       
@@ -79,8 +120,9 @@ export default function ContributionsPage() {
     setError('')
     setSuccess('')
 
-    if (contributionAmount < 500) {
-      setError('Minimum contribution is Kshs 500')
+    const selectedType = savingsTypes.find(t => t.id === selectedSavingsType)
+    if (contributionAmount < (selectedType?.minAmount || 500)) {
+      setError(`Minimum contribution for ${selectedType?.name} is Kshs ${selectedType?.minAmount}`)
       setSubmitting(false)
       return
     }
@@ -92,6 +134,7 @@ export default function ContributionsPage() {
         body: JSON.stringify({
           amount: contributionAmount,
           month: new Date().toISOString(),
+          savingsType: selectedSavingsType,
         }),
       })
 
@@ -114,12 +157,22 @@ export default function ContributionsPage() {
     }
   }
 
+  const getSavingsTypeLabel = (type: string) => {
+    const types: Record<string, string> = {
+      ordinary: 'Ordinary Savings',
+      jenga: 'Jenga Junior Savings',
+      christmas: 'Christmas Savings',
+      premium: 'Premium Savings'
+    }
+    return types[type] || type
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
-          <p className="mt-4 text-slate-600">Loading your savings...</p>
+          <p className="mt-4 text-slate-600">Loading your contributions...</p>
         </div>
       </div>
     )
@@ -139,7 +192,7 @@ export default function ContributionsPage() {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-slate-900">My Savings</h1>
-              <p className="text-slate-600">Track and manage your savings</p>
+              <p className="text-slate-600">Track and manage your savings contributions</p>
             </div>
           </div>
           <button
@@ -151,20 +204,26 @@ export default function ContributionsPage() {
           </button>
         </div>
 
-        {/* Stats Cards - Only showing total contributions */}
+        {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-4 border border-emerald-200/50 shadow-sm col-span-1 md:col-span-2">
+          <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-4 border border-emerald-200/50 shadow-sm">
             <div className="flex items-center gap-2 mb-1">
-              <PiggyBank className="h-5 w-5 text-emerald-600" />
-              <p className="text-sm text-slate-500">Total Savings (Withdrawable)</p>
+              <Wallet className="h-4 w-4 text-emerald-600" />
+              <p className="text-xs text-slate-500">Savings Balance</p>
             </div>
-            <p className="text-3xl font-bold text-emerald-600">Kshs {stats.totalSaved.toLocaleString()}</p>
-            <p className="text-xs text-slate-400 mt-1">From {stats.totalContributions} contribution(s)</p>
+            <p className="text-2xl font-bold text-emerald-600">Kshs {stats.savingsBalance.toLocaleString()}</p>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm">
             <div className="flex items-center gap-2 mb-1">
-              <Calendar className="h-4 w-4 text-blue-600" />
-              <p className="text-xs text-slate-500">Contributions</p>
+              <PiggyBank className="h-4 w-4 text-blue-600" />
+              <p className="text-xs text-slate-500">Total Contributions</p>
+            </div>
+            <p className="text-2xl font-bold text-slate-900">Kshs {stats.totalSaved.toLocaleString()}</p>
+          </div>
+          <div className="bg-white rounded-xl p-4 shadow-sm">
+            <div className="flex items-center gap-2 mb-1">
+              <Calendar className="h-4 w-4 text-purple-600" />
+              <p className="text-xs text-slate-500">Contributions Made</p>
             </div>
             <p className="text-2xl font-bold text-slate-900">{stats.totalContributions}</p>
           </div>
@@ -177,6 +236,20 @@ export default function ContributionsPage() {
           </div>
         </div>
 
+        {/* Savings Types Info */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+          {savingsTypes.map((type) => {
+            const Icon = type.icon
+            return (
+              <div key={type.id} className={`${type.bg} p-3 rounded-xl border border-slate-200 text-center`}>
+                <Icon className="h-6 w-6 mx-auto mb-1 text-slate-700" />
+                <p className="text-xs font-semibold text-slate-800">{type.name}</p>
+                <p className="text-[10px] text-slate-500">Min: Kshs {type.minAmount}</p>
+              </div>
+            )
+          })}
+        </div>
+
         {/* Eligibility Status */}
         {stats.monthsActive < 3 && (
           <div className="bg-amber-50/80 rounded-xl p-4 border border-amber-200/50 mb-6">
@@ -186,7 +259,6 @@ export default function ContributionsPage() {
                 <p className="text-sm font-semibold text-amber-800">Loan Eligibility Status</p>
                 <p className="text-sm text-amber-700 mt-1">
                   You need {3 - stats.monthsActive} more month(s) of contributions to qualify for a loan.
-                  {stats.monthsActive === 0 && ' Start saving today!'}
                 </p>
                 <div className="mt-2 w-full bg-amber-200 rounded-full h-2">
                   <div 
@@ -210,7 +282,7 @@ export default function ContributionsPage() {
                 <p className="text-sm font-semibold text-emerald-800">✅ You're Eligible for a Loan!</p>
                 <p className="text-sm text-emerald-700 mt-1">
                   You have {stats.monthsActive} months of savings history. You can now apply for a loan up to 
-                  3 times your savings (Kshs {(stats.totalSaved * 3).toLocaleString()}).
+                  3 times your savings balance (Kshs {(stats.savingsBalance * 3).toLocaleString()}).
                 </p>
               </div>
             </div>
@@ -235,6 +307,7 @@ export default function ContributionsPage() {
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Month</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Amount</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Type</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Status</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Date</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Receipt</th>
@@ -255,6 +328,11 @@ export default function ContributionsPage() {
                         <p className="font-semibold text-emerald-600">
                           Kshs {contribution.amount.toLocaleString()}
                         </p>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700">
+                          {getSavingsTypeLabel(contribution.savingsType || 'ordinary')}
+                        </span>
                       </td>
                       <td className="px-6 py-4">
                         <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
@@ -281,16 +359,50 @@ export default function ContributionsPage() {
         </div>
       </div>
 
-      {/* Contribution Modal */}
+      {/* Contribution Modal - With Savings Type Selection */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full shadow-2xl">
-            <div className="p-6 border-b border-slate-200">
+          <div className="bg-white rounded-3xl max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-slate-200 sticky top-0 bg-white rounded-t-3xl">
               <h2 className="text-xl font-bold text-slate-900">Make a Contribution</h2>
               <p className="text-sm text-slate-500">Add funds to your savings account</p>
             </div>
 
             <form onSubmit={handleContribution} className="p-6 space-y-4">
+              {/* Savings Type Selection */}
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Select Savings Type
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  {savingsTypes.map((type) => {
+                    const Icon = type.icon
+                    const isSelected = selectedSavingsType === type.id
+                    return (
+                      <button
+                        key={type.id}
+                        type="button"
+                        onClick={() => setSelectedSavingsType(type.id)}
+                        className={`p-3 rounded-xl border-2 transition-all text-left ${
+                          isSelected
+                            ? `border-blue-500 bg-blue-50 shadow-sm`
+                            : 'border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <div className={`inline-flex p-1.5 rounded-lg bg-gradient-to-br ${type.color} mb-1`}>
+                          <Icon className="h-4 w-4 text-white" />
+                        </div>
+                        <p className={`text-xs font-semibold ${isSelected ? 'text-blue-700' : 'text-slate-700'}`}>
+                          {type.name}
+                        </p>
+                        <p className="text-[10px] text-slate-500">Min: Kshs {type.minAmount}</p>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Amount */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
                   Amount (Kshs)
@@ -300,13 +412,16 @@ export default function ContributionsPage() {
                   <input
                     type="number"
                     required
-                    min="500"
+                    min={savingsTypes.find(t => t.id === selectedSavingsType)?.minAmount || 500}
                     value={contributionAmount}
                     onChange={(e) => setContributionAmount(Number(e.target.value))}
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none"
+                    placeholder="Enter amount"
                   />
                 </div>
-                <p className="text-xs text-slate-500 mt-1">Minimum: Kshs 500</p>
+                <p className="text-xs text-slate-500 mt-1">
+                  Minimum: Kshs {savingsTypes.find(t => t.id === selectedSavingsType)?.minAmount || 500}
+                </p>
               </div>
 
               <div className="bg-blue-50/80 rounded-xl p-3 border border-blue-200/50">
