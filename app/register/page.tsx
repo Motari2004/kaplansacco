@@ -21,7 +21,10 @@ import {
   Smartphone,
   Send,
   Loader2,
-  Home
+  Home,
+  Shield,
+  Clock,
+  ChevronRight
 } from 'lucide-react'
 
 export default function RegisterPage() {
@@ -36,10 +39,10 @@ export default function RegisterPage() {
   const [showFeeScreen, setShowFeeScreen] = useState(false)
   const [memberData, setMemberData] = useState<any>(null)
   const [feePaid, setFeePaid] = useState(false)
-  const [paymentMethod, setPaymentMethod] = useState('mpesa')
   const [mpesaNumber, setMpesaNumber] = useState('')
   const [stkPushSent, setStkPushSent] = useState(false)
   const [paymentStatus, setPaymentStatus] = useState('idle')
+  const [showMpesaGuide, setShowMpesaGuide] = useState(false)
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -49,7 +52,6 @@ export default function RegisterPage() {
     idNumber: '',
     password: '',
     confirmPassword: '',
-    monthlyContribution: 500,
     physicalAddress: '',
     postalAddress: '',
   })
@@ -86,7 +88,6 @@ export default function RegisterPage() {
       submitData.append('phone', formData.phone)
       submitData.append('idNumber', formData.idNumber)
       submitData.append('password', formData.password)
-      submitData.append('monthlyContribution', formData.monthlyContribution.toString())
       submitData.append('physicalAddress', formData.physicalAddress || '')
       submitData.append('postalAddress', formData.postalAddress || '')
       submitData.append('idFile', uploadedFile)
@@ -106,7 +107,6 @@ export default function RegisterPage() {
           email: formData.email,
           phone: formData.phone,
           registrationFee: 1500,
-          monthlyContribution: formData.monthlyContribution,
         })
         setMpesaNumber(formData.phone)
         setShowFeeScreen(true)
@@ -147,7 +147,7 @@ export default function RegisterPage() {
       if (response.ok) {
         setStkPushSent(true)
         setPaymentStatus('success')
-        setSuccess('STK Push sent to your phone! Please enter your M-Pesa PIN to complete payment.')
+        setSuccess('✅ STK Push sent to your phone! Please check your phone and enter your M-Pesa PIN to complete payment.')
         
         setTimeout(async () => {
           try {
@@ -162,7 +162,7 @@ export default function RegisterPage() {
             
             if (confirmResponse.ok) {
               setFeePaid(true)
-              setSuccess('Payment confirmed! Account activated successfully.')
+              setSuccess('✅ Payment confirmed! Account activated successfully.')
               setTimeout(() => {
                 router.push('/login')
               }, 3000)
@@ -199,7 +199,7 @@ export default function RegisterPage() {
             borderColor: 'rgba(255,255,255,0.3)',
             backdropFilter: 'blur(20px)'
           }}>
-            {/* Home Button - Inside Container Top Left */}
+            {/* Home Button */}
             <Link
               href="/"
               className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-white/20 transition-all duration-200"
@@ -215,25 +215,46 @@ export default function RegisterPage() {
                   <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3">
                     <Receipt className="h-8 w-8 text-blue-600" />
                   </div>
-                  <h2 className="text-2xl font-bold text-slate-800">Registration Fee</h2>
-                  <p className="text-sm text-slate-500 mt-1">Complete your membership by paying the registration fee</p>
+                  <h2 className="text-2xl font-bold text-slate-800">Complete Registration</h2>
+                  <p className="text-sm text-slate-700 mt-1 font-medium">
+  Pay registration fee to activate your account
+</p>
                 </div>
 
-                {/* Member Details */}
-                <div className="bg-slate-50 rounded-xl p-4 mb-6 border border-slate-200">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-slate-500">Member Number</span>
-                    <span className="text-sm font-bold text-slate-900">{memberData?.memberNumber}</span>
-                  </div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-slate-500">Name</span>
-                    <span className="text-sm font-medium text-slate-900">{memberData?.firstName} {memberData?.lastName}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-slate-500">Email</span>
-                    <span className="text-sm font-medium text-slate-900">{memberData?.email}</span>
-                  </div>
-                </div>
+
+
+
+
+
+
+
+{/* Member Details */}
+<div className="bg-slate-50 rounded-xl p-4 mb-6 border border-slate-200">
+  <div className="flex items-center justify-between mb-2">
+    <span className="text-sm text-slate-500">Member Number</span>
+    <span className="text-sm font-bold text-slate-400">
+      {feePaid ? memberData?.memberNumber : 'Pending Payment'}
+    </span>
+  </div>
+  <div className="flex items-center justify-between mb-2">
+    <span className="text-sm text-slate-500">Name</span>
+    <span className="text-sm font-medium text-slate-900">{memberData?.firstName} {memberData?.lastName}</span>
+  </div>
+  <div className="flex items-center justify-between">
+    <span className="text-sm text-slate-500">Email</span>
+    <span className="text-sm font-medium text-slate-900">{memberData?.email}</span>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
 
                 {/* Fee Details */}
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-6 border border-blue-200/50">
@@ -241,61 +262,21 @@ export default function RegisterPage() {
                     <span className="text-sm text-slate-600">Registration Fee</span>
                     <span className="text-2xl font-bold text-blue-600">Kshs 1,500</span>
                   </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-slate-500">Monthly Contribution</span>
-                    <span className="font-medium text-slate-700">Kshs {memberData?.monthlyContribution?.toLocaleString()}</span>
-                  </div>
                   <div className="mt-3 pt-3 border-t border-blue-200/50 flex items-center gap-2 text-xs text-blue-600">
                     <Info className="h-3 w-3" />
                     <span>One-time non-refundable fee</span>
                   </div>
                 </div>
 
-                {/* Payment Options */}
+                {/* M-Pesa Payment Section */}
                 <div className="mb-6">
-                  <h3 className="text-sm font-semibold text-slate-700 mb-3">Payment Method</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod('mpesa')}
-                      className={`p-4 rounded-xl border-2 transition-all ${
-                        paymentMethod === 'mpesa'
-                          ? 'border-emerald-500 bg-emerald-50/50 shadow-sm'
-                          : 'border-slate-200 hover:border-slate-300'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <Smartphone className={`h-5 w-5 ${paymentMethod === 'mpesa' ? 'text-emerald-600' : 'text-slate-400'}`} />
-                        <div className="text-left">
-                          <p className={`text-sm font-medium ${paymentMethod === 'mpesa' ? 'text-emerald-700' : 'text-slate-700'}`}>M-Pesa</p>
-                          <p className="text-xs text-slate-400">STK Push</p>
-                        </div>
-                      </div>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod('bank')}
-                      className={`p-4 rounded-xl border-2 transition-all ${
-                        paymentMethod === 'bank'
-                          ? 'border-blue-500 bg-blue-50/50 shadow-sm'
-                          : 'border-slate-200 hover:border-slate-300'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <CreditCard className={`h-5 w-5 ${paymentMethod === 'bank' ? 'text-blue-600' : 'text-slate-400'}`} />
-                        <div className="text-left">
-                          <p className={`text-sm font-medium ${paymentMethod === 'bank' ? 'text-blue-700' : 'text-slate-700'}`}>Bank Transfer</p>
-                          <p className="text-xs text-slate-400">Direct deposit</p>
-                        </div>
-                      </div>
-                    </button>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Smartphone className="h-5 w-5 text-emerald-600" />
+                    <h3 className="text-sm font-semibold text-slate-700">Pay with M-Pesa</h3>
                   </div>
-                </div>
 
-                {/* M-Pesa Input */}
-                {paymentMethod === 'mpesa' && (
-                  <div className="mb-6">
+                  {/* M-Pesa Input */}
+                  <div className="mb-4">
                     <label className="block text-sm font-medium text-slate-700 mb-1">
                       M-Pesa Phone Number
                     </label>
@@ -309,9 +290,57 @@ export default function RegisterPage() {
                         className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all outline-none bg-white/70 backdrop-blur-sm"
                       />
                     </div>
-                    <p className="text-xs text-slate-400 mt-1">You will receive an STK Push on this number</p>
+                    <p className="text-xs text-slate-700 mt-1 font-medium">
+  You will receive an STK Push on this number
+</p>
                   </div>
-                )}
+
+                  {/* M-Pesa Guide */}
+                  <button
+                    type="button"
+                    onClick={() => setShowMpesaGuide(!showMpesaGuide)}
+                    className="flex items-center gap-2 text-xs text-blue-600 hover:text-blue-700 transition-colors"
+                  >
+                    <Shield className="h-3.5 w-3.5" />
+                    How to complete M-Pesa payment
+                    <ChevronRight className={`h-3.5 w-3.5 transition-transform ${showMpesaGuide ? 'rotate-90' : ''}`} />
+                  </button>
+
+                  {showMpesaGuide && (
+                    <div className="mt-3 bg-emerald-50/80 rounded-xl p-4 border border-emerald-200/50">
+                      <div className="flex items-start gap-3">
+                        <div className="bg-emerald-100 p-2 rounded-lg">
+                          <Smartphone className="h-4 w-4 text-emerald-600" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-emerald-800">M-Pesa STK Push Instructions</p>
+                          <ul className="mt-2 space-y-1.5 text-xs text-emerald-700">
+                            <li className="flex items-start gap-2">
+                              <span className="font-bold">1.</span>
+                              <span>Check your phone for an STK Push from <strong>KAPLANS SACCO</strong></span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="font-bold">2.</span>
+                              <span>Enter your M-Pesa PIN when prompted on your phone</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="font-bold">3.</span>
+                              <span>Confirm the payment of <strong>Kshs 1,500</strong></span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <span className="font-bold">4.</span>
+                              <span>Wait for confirmation message on your phone and this page</span>
+                            </li>
+                          </ul>
+                          <div className="mt-2 p-2 bg-emerald-100/50 rounded-lg flex items-center gap-2">
+                            <Clock className="h-3.5 w-3.5 text-emerald-600" />
+                            <span className="text-xs text-emerald-700">You have <strong>2 minutes</strong> to complete the transaction</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
 
                 {error && (
                   <div className="rounded-xl p-3 text-sm text-center border bg-red-50/80 border-red-200/50 text-red-600 backdrop-blur-sm mb-4">
@@ -333,8 +362,14 @@ export default function RegisterPage() {
                         <Send className="h-5 w-5 text-emerald-600" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-emerald-700">STK Push Sent!</p>
-                        <p className="text-xs text-emerald-600">Check your phone and enter your M-Pesa PIN</p>
+                        <p className="text-sm font-medium text-emerald-700">✅ STK Push Sent!</p>
+                        <p className="text-xs text-emerald-600">Please check your phone and enter your M-Pesa PIN</p>
+                        <div className="mt-1 flex items-center gap-2">
+                          <div className="w-16 h-1 bg-emerald-200 rounded-full overflow-hidden">
+                            <div className="h-full bg-emerald-500 rounded-full animate-pulse" style={{ width: '100%' }}></div>
+                          </div>
+                          <span className="text-[10px] text-emerald-500">Waiting for confirmation...</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -360,22 +395,21 @@ export default function RegisterPage() {
                     ) : (
                       <>
                         <Smartphone className="h-5 w-5" />
-                        Pay with M-Pesa
+                        Pay with M-Pesa (Kshs 1,500)
                       </>
                     )}
                   </span>
                 </button>
 
-                <p className="text-xs text-slate-400 text-center mt-4">
-                  You will receive an STK Push on your M-Pesa registered phone number.
-                  Enter your PIN to complete the payment.
-                </p>
 
-                <div className="mt-4 text-center text-xs text-slate-400 border-t border-slate-200 pt-4">
-                  <p>Or visit our office to pay via cash/bank transfer</p>
-                  <p className="mt-1">KAPLAN Plaza, Opposite Holy Synagogue Church</p>
-                  <p>KISII - KILGORIS ROAD</p>
-                </div>
+
+<p className="text-xs text-slate-700 text-center mt-4 font-medium">
+  You will receive an STK Push on your M-Pesa registered phone number.
+  Enter your PIN to complete the payment.
+</p>
+
+
+
               </>
             ) : (
               // Success screen after payment
@@ -383,7 +417,7 @@ export default function RegisterPage() {
                 <div className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="h-10 w-10 text-emerald-600" />
                 </div>
-                <h2 className="text-2xl font-bold text-slate-800">✅ Registration Complete!</h2>
+                <h2 className="text-2xl font-bold text-slate-800">🎉 Registration Complete!</h2>
                 <p className="text-slate-600 mt-2">Your membership has been activated successfully.</p>
                 <div className="bg-slate-50 rounded-xl p-4 mt-4 border border-slate-200 text-left">
                   <div className="flex items-center justify-between mb-2">
@@ -424,7 +458,7 @@ export default function RegisterPage() {
           borderColor: 'rgba(255,255,255,0.3)',
           backdropFilter: 'blur(20px)'
         }}>
-          {/* Home Button - Inside Container Top Left */}
+          {/* Home Button */}
           <Link
             href="/"
             className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-white/20 transition-all duration-200"
@@ -477,7 +511,7 @@ export default function RegisterPage() {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="h-4 w-4 mt-0.5 flex-shrink-0 text-blue-600" />
-                <span>Minimum monthly contribution of <strong>Kshs 500</strong></span>
+                <span>Fill in all required fields</span>
               </li>
             </ul>
           </div>
@@ -591,23 +625,6 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Monthly Contribution (Kshs) *</label>
-              <select
-                required
-                value={formData.monthlyContribution}
-                onChange={(e) => setFormData({ ...formData, monthlyContribution: Number(e.target.value) })}
-                className="w-full px-4 py-2.5 rounded-xl border border-blue-200/50 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none bg-white/70 backdrop-blur-sm text-slate-800 text-sm"
-              >
-                {Array.from({ length: 50 }, (_, i) => (i + 1) * 500).map((amount) => (
-                  <option key={amount} value={amount}>
-                    Kshs {amount.toLocaleString()}
-                  </option>
-                ))}
-              </select>
-              <p className="text-xs text-slate-500 mt-1">Minimum monthly contribution of Kshs 500</p>
-            </div>
-
-            <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Upload ID (Original & Copy) *</label>
               <div className="relative">
                 <div className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors bg-white/50 backdrop-blur-sm ${
@@ -709,9 +726,6 @@ export default function RegisterPage() {
               </div>
             </div>
 
-
-
-
             <div className="flex items-start gap-3">
               <input
                 type="checkbox"
@@ -742,6 +756,17 @@ export default function RegisterPage() {
               disabled={loading}
               className="relative w-full group overflow-hidden py-3 rounded-xl font-semibold text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105"
             >
+
+
+
+
+
+
+
+
+
+
+
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 group-hover:scale-110 transition-transform duration-300"></div>
               <span className="relative z-10 flex items-center justify-center">
                 {loading ? (

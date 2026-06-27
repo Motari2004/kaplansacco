@@ -1480,10 +1480,12 @@ export namespace Prisma {
 
   export type LoanCountOutputType = {
     payments: number
+    guarantors: number
   }
 
   export type LoanCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     payments?: boolean | LoanCountOutputTypeCountPaymentsArgs
+    guarantors?: boolean | LoanCountOutputTypeCountGuarantorsArgs
   }
 
   // Custom InputTypes
@@ -1502,6 +1504,13 @@ export namespace Prisma {
    */
   export type LoanCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LoanPaymentWhereInput
+  }
+
+  /**
+   * LoanCountOutputType without action
+   */
+  export type LoanCountOutputTypeCountGuarantorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GuarantorWhereInput
   }
 
 
@@ -2963,6 +2972,10 @@ export namespace Prisma {
     dueDate: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    guarantor1: string | null
+    guarantor1Phone: string | null
+    guarantor2: string | null
+    guarantor2Phone: string | null
   }
 
   export type LoanMaxAggregateOutputType = {
@@ -2980,6 +2993,10 @@ export namespace Prisma {
     dueDate: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    guarantor1: string | null
+    guarantor1Phone: string | null
+    guarantor2: string | null
+    guarantor2Phone: string | null
   }
 
   export type LoanCountAggregateOutputType = {
@@ -2997,6 +3014,10 @@ export namespace Prisma {
     dueDate: number
     createdAt: number
     updatedAt: number
+    guarantor1: number
+    guarantor1Phone: number
+    guarantor2: number
+    guarantor2Phone: number
     _all: number
   }
 
@@ -3032,6 +3053,10 @@ export namespace Prisma {
     dueDate?: true
     createdAt?: true
     updatedAt?: true
+    guarantor1?: true
+    guarantor1Phone?: true
+    guarantor2?: true
+    guarantor2Phone?: true
   }
 
   export type LoanMaxAggregateInputType = {
@@ -3049,6 +3074,10 @@ export namespace Prisma {
     dueDate?: true
     createdAt?: true
     updatedAt?: true
+    guarantor1?: true
+    guarantor1Phone?: true
+    guarantor2?: true
+    guarantor2Phone?: true
   }
 
   export type LoanCountAggregateInputType = {
@@ -3066,6 +3095,10 @@ export namespace Prisma {
     dueDate?: true
     createdAt?: true
     updatedAt?: true
+    guarantor1?: true
+    guarantor1Phone?: true
+    guarantor2?: true
+    guarantor2Phone?: true
     _all?: true
   }
 
@@ -3170,6 +3203,10 @@ export namespace Prisma {
     dueDate: Date
     createdAt: Date
     updatedAt: Date
+    guarantor1: string | null
+    guarantor1Phone: string | null
+    guarantor2: string | null
+    guarantor2Phone: string | null
     _count: LoanCountAggregateOutputType | null
     _avg: LoanAvgAggregateOutputType | null
     _sum: LoanSumAggregateOutputType | null
@@ -3206,8 +3243,13 @@ export namespace Prisma {
     dueDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    guarantor1?: boolean
+    guarantor1Phone?: boolean
+    guarantor2?: boolean
+    guarantor2Phone?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     payments?: boolean | Loan$paymentsArgs<ExtArgs>
+    guarantors?: boolean | Loan$guarantorsArgs<ExtArgs>
     _count?: boolean | LoanCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["loan"]>
 
@@ -3226,6 +3268,10 @@ export namespace Prisma {
     dueDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    guarantor1?: boolean
+    guarantor1Phone?: boolean
+    guarantor2?: boolean
+    guarantor2Phone?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["loan"]>
 
@@ -3244,6 +3290,10 @@ export namespace Prisma {
     dueDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    guarantor1?: boolean
+    guarantor1Phone?: boolean
+    guarantor2?: boolean
+    guarantor2Phone?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["loan"]>
 
@@ -3262,12 +3312,17 @@ export namespace Prisma {
     dueDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    guarantor1?: boolean
+    guarantor1Phone?: boolean
+    guarantor2?: boolean
+    guarantor2Phone?: boolean
   }
 
-  export type LoanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "amount" | "interestRate" | "totalRepayable" | "monthlyInstallment" | "termMonths" | "purpose" | "status" | "approvalDate" | "disbursementDate" | "dueDate" | "createdAt" | "updatedAt", ExtArgs["result"]["loan"]>
+  export type LoanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "amount" | "interestRate" | "totalRepayable" | "monthlyInstallment" | "termMonths" | "purpose" | "status" | "approvalDate" | "disbursementDate" | "dueDate" | "createdAt" | "updatedAt" | "guarantor1" | "guarantor1Phone" | "guarantor2" | "guarantor2Phone", ExtArgs["result"]["loan"]>
   export type LoanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     payments?: boolean | Loan$paymentsArgs<ExtArgs>
+    guarantors?: boolean | Loan$guarantorsArgs<ExtArgs>
     _count?: boolean | LoanCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LoanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3282,6 +3337,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       payments: Prisma.$LoanPaymentPayload<ExtArgs>[]
+      guarantors: Prisma.$GuarantorPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3298,6 +3354,10 @@ export namespace Prisma {
       dueDate: Date
       createdAt: Date
       updatedAt: Date
+      guarantor1: string | null
+      guarantor1Phone: string | null
+      guarantor2: string | null
+      guarantor2Phone: string | null
     }, ExtArgs["result"]["loan"]>
     composites: {}
   }
@@ -3694,6 +3754,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     payments<T extends Loan$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Loan$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    guarantors<T extends Loan$guarantorsArgs<ExtArgs> = {}>(args?: Subset<T, Loan$guarantorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuarantorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3737,6 +3798,10 @@ export namespace Prisma {
     readonly dueDate: FieldRef<"Loan", 'DateTime'>
     readonly createdAt: FieldRef<"Loan", 'DateTime'>
     readonly updatedAt: FieldRef<"Loan", 'DateTime'>
+    readonly guarantor1: FieldRef<"Loan", 'String'>
+    readonly guarantor1Phone: FieldRef<"Loan", 'String'>
+    readonly guarantor2: FieldRef<"Loan", 'String'>
+    readonly guarantor2Phone: FieldRef<"Loan", 'String'>
   }
     
 
@@ -4159,6 +4224,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LoanPaymentScalarFieldEnum | LoanPaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Loan.guarantors
+   */
+  export type Loan$guarantorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Guarantor
+     */
+    select?: GuarantorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Guarantor
+     */
+    omit?: GuarantorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GuarantorInclude<ExtArgs> | null
+    where?: GuarantorWhereInput
+    orderBy?: GuarantorOrderByWithRelationInput | GuarantorOrderByWithRelationInput[]
+    cursor?: GuarantorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GuarantorScalarFieldEnum | GuarantorScalarFieldEnum[]
   }
 
   /**
@@ -7653,6 +7742,7 @@ export namespace Prisma {
   export type GuarantorMinAggregateOutputType = {
     id: string | null
     userId: string | null
+    loanId: string | null
     fullName: string | null
     phone: string | null
     email: string | null
@@ -7664,6 +7754,7 @@ export namespace Prisma {
   export type GuarantorMaxAggregateOutputType = {
     id: string | null
     userId: string | null
+    loanId: string | null
     fullName: string | null
     phone: string | null
     email: string | null
@@ -7675,6 +7766,7 @@ export namespace Prisma {
   export type GuarantorCountAggregateOutputType = {
     id: number
     userId: number
+    loanId: number
     fullName: number
     phone: number
     email: number
@@ -7688,6 +7780,7 @@ export namespace Prisma {
   export type GuarantorMinAggregateInputType = {
     id?: true
     userId?: true
+    loanId?: true
     fullName?: true
     phone?: true
     email?: true
@@ -7699,6 +7792,7 @@ export namespace Prisma {
   export type GuarantorMaxAggregateInputType = {
     id?: true
     userId?: true
+    loanId?: true
     fullName?: true
     phone?: true
     email?: true
@@ -7710,6 +7804,7 @@ export namespace Prisma {
   export type GuarantorCountAggregateInputType = {
     id?: true
     userId?: true
+    loanId?: true
     fullName?: true
     phone?: true
     email?: true
@@ -7794,6 +7889,7 @@ export namespace Prisma {
   export type GuarantorGroupByOutputType = {
     id: string
     userId: string
+    loanId: string | null
     fullName: string
     phone: string
     email: string | null
@@ -7822,6 +7918,7 @@ export namespace Prisma {
   export type GuarantorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    loanId?: boolean
     fullName?: boolean
     phone?: boolean
     email?: boolean
@@ -7829,11 +7926,13 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    loan?: boolean | Guarantor$loanArgs<ExtArgs>
   }, ExtArgs["result"]["guarantor"]>
 
   export type GuarantorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    loanId?: boolean
     fullName?: boolean
     phone?: boolean
     email?: boolean
@@ -7841,11 +7940,13 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    loan?: boolean | Guarantor$loanArgs<ExtArgs>
   }, ExtArgs["result"]["guarantor"]>
 
   export type GuarantorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    loanId?: boolean
     fullName?: boolean
     phone?: boolean
     email?: boolean
@@ -7853,11 +7954,13 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    loan?: boolean | Guarantor$loanArgs<ExtArgs>
   }, ExtArgs["result"]["guarantor"]>
 
   export type GuarantorSelectScalar = {
     id?: boolean
     userId?: boolean
+    loanId?: boolean
     fullName?: boolean
     phone?: boolean
     email?: boolean
@@ -7866,25 +7969,30 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type GuarantorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fullName" | "phone" | "email" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["guarantor"]>
+  export type GuarantorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "loanId" | "fullName" | "phone" | "email" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["guarantor"]>
   export type GuarantorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    loan?: boolean | Guarantor$loanArgs<ExtArgs>
   }
   export type GuarantorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    loan?: boolean | Guarantor$loanArgs<ExtArgs>
   }
   export type GuarantorIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    loan?: boolean | Guarantor$loanArgs<ExtArgs>
   }
 
   export type $GuarantorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Guarantor"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      loan: Prisma.$LoanPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
+      loanId: string | null
       fullName: string
       phone: string
       email: string | null
@@ -8286,6 +8394,7 @@ export namespace Prisma {
   export interface Prisma__GuarantorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    loan<T extends Guarantor$loanArgs<ExtArgs> = {}>(args?: Subset<T, Guarantor$loanArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8317,6 +8426,7 @@ export namespace Prisma {
   interface GuarantorFieldRefs {
     readonly id: FieldRef<"Guarantor", 'String'>
     readonly userId: FieldRef<"Guarantor", 'String'>
+    readonly loanId: FieldRef<"Guarantor", 'String'>
     readonly fullName: FieldRef<"Guarantor", 'String'>
     readonly phone: FieldRef<"Guarantor", 'String'>
     readonly email: FieldRef<"Guarantor", 'String'>
@@ -8721,6 +8831,25 @@ export namespace Prisma {
      * Limit how many Guarantors to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Guarantor.loan
+   */
+  export type Guarantor$loanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInclude<ExtArgs> | null
+    where?: LoanWhereInput
   }
 
   /**
@@ -10022,7 +10151,11 @@ export namespace Prisma {
     disbursementDate: 'disbursementDate',
     dueDate: 'dueDate',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    guarantor1: 'guarantor1',
+    guarantor1Phone: 'guarantor1Phone',
+    guarantor2: 'guarantor2',
+    guarantor2Phone: 'guarantor2Phone'
   };
 
   export type LoanScalarFieldEnum = (typeof LoanScalarFieldEnum)[keyof typeof LoanScalarFieldEnum]
@@ -10077,6 +10210,7 @@ export namespace Prisma {
   export const GuarantorScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    loanId: 'loanId',
     fullName: 'fullName',
     phone: 'phone',
     email: 'email',
@@ -10354,8 +10488,13 @@ export namespace Prisma {
     dueDate?: DateTimeFilter<"Loan"> | Date | string
     createdAt?: DateTimeFilter<"Loan"> | Date | string
     updatedAt?: DateTimeFilter<"Loan"> | Date | string
+    guarantor1?: StringNullableFilter<"Loan"> | string | null
+    guarantor1Phone?: StringNullableFilter<"Loan"> | string | null
+    guarantor2?: StringNullableFilter<"Loan"> | string | null
+    guarantor2Phone?: StringNullableFilter<"Loan"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     payments?: LoanPaymentListRelationFilter
+    guarantors?: GuarantorListRelationFilter
   }
 
   export type LoanOrderByWithRelationInput = {
@@ -10373,8 +10512,13 @@ export namespace Prisma {
     dueDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    guarantor1?: SortOrderInput | SortOrder
+    guarantor1Phone?: SortOrderInput | SortOrder
+    guarantor2?: SortOrderInput | SortOrder
+    guarantor2Phone?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     payments?: LoanPaymentOrderByRelationAggregateInput
+    guarantors?: GuarantorOrderByRelationAggregateInput
   }
 
   export type LoanWhereUniqueInput = Prisma.AtLeast<{
@@ -10395,8 +10539,13 @@ export namespace Prisma {
     dueDate?: DateTimeFilter<"Loan"> | Date | string
     createdAt?: DateTimeFilter<"Loan"> | Date | string
     updatedAt?: DateTimeFilter<"Loan"> | Date | string
+    guarantor1?: StringNullableFilter<"Loan"> | string | null
+    guarantor1Phone?: StringNullableFilter<"Loan"> | string | null
+    guarantor2?: StringNullableFilter<"Loan"> | string | null
+    guarantor2Phone?: StringNullableFilter<"Loan"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     payments?: LoanPaymentListRelationFilter
+    guarantors?: GuarantorListRelationFilter
   }, "id">
 
   export type LoanOrderByWithAggregationInput = {
@@ -10414,6 +10563,10 @@ export namespace Prisma {
     dueDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    guarantor1?: SortOrderInput | SortOrder
+    guarantor1Phone?: SortOrderInput | SortOrder
+    guarantor2?: SortOrderInput | SortOrder
+    guarantor2Phone?: SortOrderInput | SortOrder
     _count?: LoanCountOrderByAggregateInput
     _avg?: LoanAvgOrderByAggregateInput
     _max?: LoanMaxOrderByAggregateInput
@@ -10439,6 +10592,10 @@ export namespace Prisma {
     dueDate?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
+    guarantor1?: StringNullableWithAggregatesFilter<"Loan"> | string | null
+    guarantor1Phone?: StringNullableWithAggregatesFilter<"Loan"> | string | null
+    guarantor2?: StringNullableWithAggregatesFilter<"Loan"> | string | null
+    guarantor2Phone?: StringNullableWithAggregatesFilter<"Loan"> | string | null
   }
 
   export type LoanPaymentWhereInput = {
@@ -10683,6 +10840,7 @@ export namespace Prisma {
     NOT?: GuarantorWhereInput | GuarantorWhereInput[]
     id?: StringFilter<"Guarantor"> | string
     userId?: StringFilter<"Guarantor"> | string
+    loanId?: StringNullableFilter<"Guarantor"> | string | null
     fullName?: StringFilter<"Guarantor"> | string
     phone?: StringFilter<"Guarantor"> | string
     email?: StringNullableFilter<"Guarantor"> | string | null
@@ -10690,11 +10848,13 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Guarantor"> | Date | string
     updatedAt?: DateTimeFilter<"Guarantor"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    loan?: XOR<LoanNullableScalarRelationFilter, LoanWhereInput> | null
   }
 
   export type GuarantorOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
+    loanId?: SortOrderInput | SortOrder
     fullName?: SortOrder
     phone?: SortOrder
     email?: SortOrderInput | SortOrder
@@ -10702,6 +10862,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
+    loan?: LoanOrderByWithRelationInput
   }
 
   export type GuarantorWhereUniqueInput = Prisma.AtLeast<{
@@ -10710,6 +10871,7 @@ export namespace Prisma {
     OR?: GuarantorWhereInput[]
     NOT?: GuarantorWhereInput | GuarantorWhereInput[]
     userId?: StringFilter<"Guarantor"> | string
+    loanId?: StringNullableFilter<"Guarantor"> | string | null
     fullName?: StringFilter<"Guarantor"> | string
     phone?: StringFilter<"Guarantor"> | string
     email?: StringNullableFilter<"Guarantor"> | string | null
@@ -10717,11 +10879,13 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Guarantor"> | Date | string
     updatedAt?: DateTimeFilter<"Guarantor"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    loan?: XOR<LoanNullableScalarRelationFilter, LoanWhereInput> | null
   }, "id">
 
   export type GuarantorOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
+    loanId?: SortOrderInput | SortOrder
     fullName?: SortOrder
     phone?: SortOrder
     email?: SortOrderInput | SortOrder
@@ -10739,6 +10903,7 @@ export namespace Prisma {
     NOT?: GuarantorScalarWhereWithAggregatesInput | GuarantorScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Guarantor"> | string
     userId?: StringWithAggregatesFilter<"Guarantor"> | string
+    loanId?: StringNullableWithAggregatesFilter<"Guarantor"> | string | null
     fullName?: StringWithAggregatesFilter<"Guarantor"> | string
     phone?: StringWithAggregatesFilter<"Guarantor"> | string
     email?: StringNullableWithAggregatesFilter<"Guarantor"> | string | null
@@ -11042,8 +11207,13 @@ export namespace Prisma {
     dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    guarantor1?: string | null
+    guarantor1Phone?: string | null
+    guarantor2?: string | null
+    guarantor2Phone?: string | null
     user: UserCreateNestedOneWithoutLoansInput
     payments?: LoanPaymentCreateNestedManyWithoutLoanInput
+    guarantors?: GuarantorCreateNestedManyWithoutLoanInput
   }
 
   export type LoanUncheckedCreateInput = {
@@ -11061,7 +11231,12 @@ export namespace Prisma {
     dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    guarantor1?: string | null
+    guarantor1Phone?: string | null
+    guarantor2?: string | null
+    guarantor2Phone?: string | null
     payments?: LoanPaymentUncheckedCreateNestedManyWithoutLoanInput
+    guarantors?: GuarantorUncheckedCreateNestedManyWithoutLoanInput
   }
 
   export type LoanUpdateInput = {
@@ -11078,8 +11253,13 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guarantor1?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor1Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2Phone?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutLoansNestedInput
     payments?: LoanPaymentUpdateManyWithoutLoanNestedInput
+    guarantors?: GuarantorUpdateManyWithoutLoanNestedInput
   }
 
   export type LoanUncheckedUpdateInput = {
@@ -11097,7 +11277,12 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guarantor1?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor1Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2Phone?: NullableStringFieldUpdateOperationsInput | string | null
     payments?: LoanPaymentUncheckedUpdateManyWithoutLoanNestedInput
+    guarantors?: GuarantorUncheckedUpdateManyWithoutLoanNestedInput
   }
 
   export type LoanCreateManyInput = {
@@ -11115,6 +11300,10 @@ export namespace Prisma {
     dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    guarantor1?: string | null
+    guarantor1Phone?: string | null
+    guarantor2?: string | null
+    guarantor2Phone?: string | null
   }
 
   export type LoanUpdateManyMutationInput = {
@@ -11131,6 +11320,10 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guarantor1?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor1Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2Phone?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LoanUncheckedUpdateManyInput = {
@@ -11148,6 +11341,10 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guarantor1?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor1Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2Phone?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LoanPaymentCreateInput = {
@@ -11415,11 +11612,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutGuarantorsInput
+    loan?: LoanCreateNestedOneWithoutGuarantorsInput
   }
 
   export type GuarantorUncheckedCreateInput = {
     id?: string
     userId: string
+    loanId?: string | null
     fullName: string
     phone: string
     email?: string | null
@@ -11437,11 +11636,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutGuarantorsNestedInput
+    loan?: LoanUpdateOneWithoutGuarantorsNestedInput
   }
 
   export type GuarantorUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    loanId?: NullableStringFieldUpdateOperationsInput | string | null
     fullName?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11453,6 +11654,7 @@ export namespace Prisma {
   export type GuarantorCreateManyInput = {
     id?: string
     userId: string
+    loanId?: string | null
     fullName: string
     phone: string
     email?: string | null
@@ -11474,6 +11676,7 @@ export namespace Prisma {
   export type GuarantorUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    loanId?: NullableStringFieldUpdateOperationsInput | string | null
     fullName?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11940,6 +12143,10 @@ export namespace Prisma {
     dueDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    guarantor1?: SortOrder
+    guarantor1Phone?: SortOrder
+    guarantor2?: SortOrder
+    guarantor2Phone?: SortOrder
   }
 
   export type LoanAvgOrderByAggregateInput = {
@@ -11965,6 +12172,10 @@ export namespace Prisma {
     dueDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    guarantor1?: SortOrder
+    guarantor1Phone?: SortOrder
+    guarantor2?: SortOrder
+    guarantor2Phone?: SortOrder
   }
 
   export type LoanMinOrderByAggregateInput = {
@@ -11982,6 +12193,10 @@ export namespace Prisma {
     dueDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    guarantor1?: SortOrder
+    guarantor1Phone?: SortOrder
+    guarantor2?: SortOrder
+    guarantor2Phone?: SortOrder
   }
 
   export type LoanSumOrderByAggregateInput = {
@@ -12132,9 +12347,15 @@ export namespace Prisma {
     amount?: SortOrder
   }
 
+  export type LoanNullableScalarRelationFilter = {
+    is?: LoanWhereInput | null
+    isNot?: LoanWhereInput | null
+  }
+
   export type GuarantorCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    loanId?: SortOrder
     fullName?: SortOrder
     phone?: SortOrder
     email?: SortOrder
@@ -12146,6 +12367,7 @@ export namespace Prisma {
   export type GuarantorMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    loanId?: SortOrder
     fullName?: SortOrder
     phone?: SortOrder
     email?: SortOrder
@@ -12157,6 +12379,7 @@ export namespace Prisma {
   export type GuarantorMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    loanId?: SortOrder
     fullName?: SortOrder
     phone?: SortOrder
     email?: SortOrder
@@ -12482,11 +12705,25 @@ export namespace Prisma {
     connect?: LoanPaymentWhereUniqueInput | LoanPaymentWhereUniqueInput[]
   }
 
+  export type GuarantorCreateNestedManyWithoutLoanInput = {
+    create?: XOR<GuarantorCreateWithoutLoanInput, GuarantorUncheckedCreateWithoutLoanInput> | GuarantorCreateWithoutLoanInput[] | GuarantorUncheckedCreateWithoutLoanInput[]
+    connectOrCreate?: GuarantorCreateOrConnectWithoutLoanInput | GuarantorCreateOrConnectWithoutLoanInput[]
+    createMany?: GuarantorCreateManyLoanInputEnvelope
+    connect?: GuarantorWhereUniqueInput | GuarantorWhereUniqueInput[]
+  }
+
   export type LoanPaymentUncheckedCreateNestedManyWithoutLoanInput = {
     create?: XOR<LoanPaymentCreateWithoutLoanInput, LoanPaymentUncheckedCreateWithoutLoanInput> | LoanPaymentCreateWithoutLoanInput[] | LoanPaymentUncheckedCreateWithoutLoanInput[]
     connectOrCreate?: LoanPaymentCreateOrConnectWithoutLoanInput | LoanPaymentCreateOrConnectWithoutLoanInput[]
     createMany?: LoanPaymentCreateManyLoanInputEnvelope
     connect?: LoanPaymentWhereUniqueInput | LoanPaymentWhereUniqueInput[]
+  }
+
+  export type GuarantorUncheckedCreateNestedManyWithoutLoanInput = {
+    create?: XOR<GuarantorCreateWithoutLoanInput, GuarantorUncheckedCreateWithoutLoanInput> | GuarantorCreateWithoutLoanInput[] | GuarantorUncheckedCreateWithoutLoanInput[]
+    connectOrCreate?: GuarantorCreateOrConnectWithoutLoanInput | GuarantorCreateOrConnectWithoutLoanInput[]
+    createMany?: GuarantorCreateManyLoanInputEnvelope
+    connect?: GuarantorWhereUniqueInput | GuarantorWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutLoansNestedInput = {
@@ -12511,6 +12748,20 @@ export namespace Prisma {
     deleteMany?: LoanPaymentScalarWhereInput | LoanPaymentScalarWhereInput[]
   }
 
+  export type GuarantorUpdateManyWithoutLoanNestedInput = {
+    create?: XOR<GuarantorCreateWithoutLoanInput, GuarantorUncheckedCreateWithoutLoanInput> | GuarantorCreateWithoutLoanInput[] | GuarantorUncheckedCreateWithoutLoanInput[]
+    connectOrCreate?: GuarantorCreateOrConnectWithoutLoanInput | GuarantorCreateOrConnectWithoutLoanInput[]
+    upsert?: GuarantorUpsertWithWhereUniqueWithoutLoanInput | GuarantorUpsertWithWhereUniqueWithoutLoanInput[]
+    createMany?: GuarantorCreateManyLoanInputEnvelope
+    set?: GuarantorWhereUniqueInput | GuarantorWhereUniqueInput[]
+    disconnect?: GuarantorWhereUniqueInput | GuarantorWhereUniqueInput[]
+    delete?: GuarantorWhereUniqueInput | GuarantorWhereUniqueInput[]
+    connect?: GuarantorWhereUniqueInput | GuarantorWhereUniqueInput[]
+    update?: GuarantorUpdateWithWhereUniqueWithoutLoanInput | GuarantorUpdateWithWhereUniqueWithoutLoanInput[]
+    updateMany?: GuarantorUpdateManyWithWhereWithoutLoanInput | GuarantorUpdateManyWithWhereWithoutLoanInput[]
+    deleteMany?: GuarantorScalarWhereInput | GuarantorScalarWhereInput[]
+  }
+
   export type LoanPaymentUncheckedUpdateManyWithoutLoanNestedInput = {
     create?: XOR<LoanPaymentCreateWithoutLoanInput, LoanPaymentUncheckedCreateWithoutLoanInput> | LoanPaymentCreateWithoutLoanInput[] | LoanPaymentUncheckedCreateWithoutLoanInput[]
     connectOrCreate?: LoanPaymentCreateOrConnectWithoutLoanInput | LoanPaymentCreateOrConnectWithoutLoanInput[]
@@ -12523,6 +12774,20 @@ export namespace Prisma {
     update?: LoanPaymentUpdateWithWhereUniqueWithoutLoanInput | LoanPaymentUpdateWithWhereUniqueWithoutLoanInput[]
     updateMany?: LoanPaymentUpdateManyWithWhereWithoutLoanInput | LoanPaymentUpdateManyWithWhereWithoutLoanInput[]
     deleteMany?: LoanPaymentScalarWhereInput | LoanPaymentScalarWhereInput[]
+  }
+
+  export type GuarantorUncheckedUpdateManyWithoutLoanNestedInput = {
+    create?: XOR<GuarantorCreateWithoutLoanInput, GuarantorUncheckedCreateWithoutLoanInput> | GuarantorCreateWithoutLoanInput[] | GuarantorUncheckedCreateWithoutLoanInput[]
+    connectOrCreate?: GuarantorCreateOrConnectWithoutLoanInput | GuarantorCreateOrConnectWithoutLoanInput[]
+    upsert?: GuarantorUpsertWithWhereUniqueWithoutLoanInput | GuarantorUpsertWithWhereUniqueWithoutLoanInput[]
+    createMany?: GuarantorCreateManyLoanInputEnvelope
+    set?: GuarantorWhereUniqueInput | GuarantorWhereUniqueInput[]
+    disconnect?: GuarantorWhereUniqueInput | GuarantorWhereUniqueInput[]
+    delete?: GuarantorWhereUniqueInput | GuarantorWhereUniqueInput[]
+    connect?: GuarantorWhereUniqueInput | GuarantorWhereUniqueInput[]
+    update?: GuarantorUpdateWithWhereUniqueWithoutLoanInput | GuarantorUpdateWithWhereUniqueWithoutLoanInput[]
+    updateMany?: GuarantorUpdateManyWithWhereWithoutLoanInput | GuarantorUpdateManyWithWhereWithoutLoanInput[]
+    deleteMany?: GuarantorScalarWhereInput | GuarantorScalarWhereInput[]
   }
 
   export type LoanCreateNestedOneWithoutPaymentsInput = {
@@ -12573,12 +12838,28 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type LoanCreateNestedOneWithoutGuarantorsInput = {
+    create?: XOR<LoanCreateWithoutGuarantorsInput, LoanUncheckedCreateWithoutGuarantorsInput>
+    connectOrCreate?: LoanCreateOrConnectWithoutGuarantorsInput
+    connect?: LoanWhereUniqueInput
+  }
+
   export type UserUpdateOneRequiredWithoutGuarantorsNestedInput = {
     create?: XOR<UserCreateWithoutGuarantorsInput, UserUncheckedCreateWithoutGuarantorsInput>
     connectOrCreate?: UserCreateOrConnectWithoutGuarantorsInput
     upsert?: UserUpsertWithoutGuarantorsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGuarantorsInput, UserUpdateWithoutGuarantorsInput>, UserUncheckedUpdateWithoutGuarantorsInput>
+  }
+
+  export type LoanUpdateOneWithoutGuarantorsNestedInput = {
+    create?: XOR<LoanCreateWithoutGuarantorsInput, LoanUncheckedCreateWithoutGuarantorsInput>
+    connectOrCreate?: LoanCreateOrConnectWithoutGuarantorsInput
+    upsert?: LoanUpsertWithoutGuarantorsInput
+    disconnect?: LoanWhereInput | boolean
+    delete?: LoanWhereInput | boolean
+    connect?: LoanWhereUniqueInput
+    update?: XOR<XOR<LoanUpdateToOneWithWhereWithoutGuarantorsInput, LoanUpdateWithoutGuarantorsInput>, LoanUncheckedUpdateWithoutGuarantorsInput>
   }
 
   export type UserCreateNestedOneWithoutWithdrawalsInput = {
@@ -12786,7 +13067,12 @@ export namespace Prisma {
     dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    guarantor1?: string | null
+    guarantor1Phone?: string | null
+    guarantor2?: string | null
+    guarantor2Phone?: string | null
     payments?: LoanPaymentCreateNestedManyWithoutLoanInput
+    guarantors?: GuarantorCreateNestedManyWithoutLoanInput
   }
 
   export type LoanUncheckedCreateWithoutUserInput = {
@@ -12803,7 +13089,12 @@ export namespace Prisma {
     dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    guarantor1?: string | null
+    guarantor1Phone?: string | null
+    guarantor2?: string | null
+    guarantor2Phone?: string | null
     payments?: LoanPaymentUncheckedCreateNestedManyWithoutLoanInput
+    guarantors?: GuarantorUncheckedCreateNestedManyWithoutLoanInput
   }
 
   export type LoanCreateOrConnectWithoutUserInput = {
@@ -12892,10 +13183,12 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    loan?: LoanCreateNestedOneWithoutGuarantorsInput
   }
 
   export type GuarantorUncheckedCreateWithoutUserInput = {
     id?: string
+    loanId?: string | null
     fullName: string
     phone: string
     email?: string | null
@@ -12992,6 +13285,10 @@ export namespace Prisma {
     dueDate?: DateTimeFilter<"Loan"> | Date | string
     createdAt?: DateTimeFilter<"Loan"> | Date | string
     updatedAt?: DateTimeFilter<"Loan"> | Date | string
+    guarantor1?: StringNullableFilter<"Loan"> | string | null
+    guarantor1Phone?: StringNullableFilter<"Loan"> | string | null
+    guarantor2?: StringNullableFilter<"Loan"> | string | null
+    guarantor2Phone?: StringNullableFilter<"Loan"> | string | null
   }
 
   export type TransactionUpsertWithWhereUniqueWithoutUserInput = {
@@ -13080,6 +13377,7 @@ export namespace Prisma {
     NOT?: GuarantorScalarWhereInput | GuarantorScalarWhereInput[]
     id?: StringFilter<"Guarantor"> | string
     userId?: StringFilter<"Guarantor"> | string
+    loanId?: StringNullableFilter<"Guarantor"> | string | null
     fullName?: StringFilter<"Guarantor"> | string
     phone?: StringFilter<"Guarantor"> | string
     email?: StringNullableFilter<"Guarantor"> | string | null
@@ -13212,6 +13510,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type GuarantorCreateWithoutLoanInput = {
+    id?: string
+    fullName: string
+    phone: string
+    email?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutGuarantorsInput
+  }
+
+  export type GuarantorUncheckedCreateWithoutLoanInput = {
+    id?: string
+    userId: string
+    fullName: string
+    phone: string
+    email?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GuarantorCreateOrConnectWithoutLoanInput = {
+    where: GuarantorWhereUniqueInput
+    create: XOR<GuarantorCreateWithoutLoanInput, GuarantorUncheckedCreateWithoutLoanInput>
+  }
+
+  export type GuarantorCreateManyLoanInputEnvelope = {
+    data: GuarantorCreateManyLoanInput | GuarantorCreateManyLoanInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutLoansInput = {
     update: XOR<UserUpdateWithoutLoansInput, UserUncheckedUpdateWithoutLoansInput>
     create: XOR<UserCreateWithoutLoansInput, UserUncheckedCreateWithoutLoansInput>
@@ -13305,6 +13635,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"LoanPayment"> | Date | string
   }
 
+  export type GuarantorUpsertWithWhereUniqueWithoutLoanInput = {
+    where: GuarantorWhereUniqueInput
+    update: XOR<GuarantorUpdateWithoutLoanInput, GuarantorUncheckedUpdateWithoutLoanInput>
+    create: XOR<GuarantorCreateWithoutLoanInput, GuarantorUncheckedCreateWithoutLoanInput>
+  }
+
+  export type GuarantorUpdateWithWhereUniqueWithoutLoanInput = {
+    where: GuarantorWhereUniqueInput
+    data: XOR<GuarantorUpdateWithoutLoanInput, GuarantorUncheckedUpdateWithoutLoanInput>
+  }
+
+  export type GuarantorUpdateManyWithWhereWithoutLoanInput = {
+    where: GuarantorScalarWhereInput
+    data: XOR<GuarantorUpdateManyMutationInput, GuarantorUncheckedUpdateManyWithoutLoanInput>
+  }
+
   export type LoanCreateWithoutPaymentsInput = {
     id?: string
     amount: number
@@ -13319,7 +13665,12 @@ export namespace Prisma {
     dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    guarantor1?: string | null
+    guarantor1Phone?: string | null
+    guarantor2?: string | null
+    guarantor2Phone?: string | null
     user: UserCreateNestedOneWithoutLoansInput
+    guarantors?: GuarantorCreateNestedManyWithoutLoanInput
   }
 
   export type LoanUncheckedCreateWithoutPaymentsInput = {
@@ -13337,6 +13688,11 @@ export namespace Prisma {
     dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    guarantor1?: string | null
+    guarantor1Phone?: string | null
+    guarantor2?: string | null
+    guarantor2Phone?: string | null
+    guarantors?: GuarantorUncheckedCreateNestedManyWithoutLoanInput
   }
 
   export type LoanCreateOrConnectWithoutPaymentsInput = {
@@ -13369,7 +13725,12 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guarantor1?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor1Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2Phone?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutLoansNestedInput
+    guarantors?: GuarantorUpdateManyWithoutLoanNestedInput
   }
 
   export type LoanUncheckedUpdateWithoutPaymentsInput = {
@@ -13387,6 +13748,11 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guarantor1?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor1Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantors?: GuarantorUncheckedUpdateManyWithoutLoanNestedInput
   }
 
   export type UserCreateWithoutTransactionsInput = {
@@ -13686,6 +14052,55 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutGuarantorsInput, UserUncheckedCreateWithoutGuarantorsInput>
   }
 
+  export type LoanCreateWithoutGuarantorsInput = {
+    id?: string
+    amount: number
+    interestRate?: number
+    totalRepayable: number
+    monthlyInstallment: number
+    termMonths?: number
+    purpose?: string | null
+    status?: string
+    approvalDate?: Date | string | null
+    disbursementDate?: Date | string | null
+    dueDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    guarantor1?: string | null
+    guarantor1Phone?: string | null
+    guarantor2?: string | null
+    guarantor2Phone?: string | null
+    user: UserCreateNestedOneWithoutLoansInput
+    payments?: LoanPaymentCreateNestedManyWithoutLoanInput
+  }
+
+  export type LoanUncheckedCreateWithoutGuarantorsInput = {
+    id?: string
+    userId: string
+    amount: number
+    interestRate?: number
+    totalRepayable: number
+    monthlyInstallment: number
+    termMonths?: number
+    purpose?: string | null
+    status?: string
+    approvalDate?: Date | string | null
+    disbursementDate?: Date | string | null
+    dueDate: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    guarantor1?: string | null
+    guarantor1Phone?: string | null
+    guarantor2?: string | null
+    guarantor2Phone?: string | null
+    payments?: LoanPaymentUncheckedCreateNestedManyWithoutLoanInput
+  }
+
+  export type LoanCreateOrConnectWithoutGuarantorsInput = {
+    where: LoanWhereUniqueInput
+    create: XOR<LoanCreateWithoutGuarantorsInput, LoanUncheckedCreateWithoutGuarantorsInput>
+  }
+
   export type UserUpsertWithoutGuarantorsInput = {
     update: XOR<UserUpdateWithoutGuarantorsInput, UserUncheckedUpdateWithoutGuarantorsInput>
     create: XOR<UserCreateWithoutGuarantorsInput, UserUncheckedCreateWithoutGuarantorsInput>
@@ -13747,6 +14162,61 @@ export namespace Prisma {
     transactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     contributions?: ContributionUncheckedUpdateManyWithoutUserNestedInput
     withdrawals?: WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type LoanUpsertWithoutGuarantorsInput = {
+    update: XOR<LoanUpdateWithoutGuarantorsInput, LoanUncheckedUpdateWithoutGuarantorsInput>
+    create: XOR<LoanCreateWithoutGuarantorsInput, LoanUncheckedCreateWithoutGuarantorsInput>
+    where?: LoanWhereInput
+  }
+
+  export type LoanUpdateToOneWithWhereWithoutGuarantorsInput = {
+    where?: LoanWhereInput
+    data: XOR<LoanUpdateWithoutGuarantorsInput, LoanUncheckedUpdateWithoutGuarantorsInput>
+  }
+
+  export type LoanUpdateWithoutGuarantorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    interestRate?: FloatFieldUpdateOperationsInput | number
+    totalRepayable?: FloatFieldUpdateOperationsInput | number
+    monthlyInstallment?: FloatFieldUpdateOperationsInput | number
+    termMonths?: IntFieldUpdateOperationsInput | number
+    purpose?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    approvalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disbursementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guarantor1?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor1Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutLoansNestedInput
+    payments?: LoanPaymentUpdateManyWithoutLoanNestedInput
+  }
+
+  export type LoanUncheckedUpdateWithoutGuarantorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    interestRate?: FloatFieldUpdateOperationsInput | number
+    totalRepayable?: FloatFieldUpdateOperationsInput | number
+    monthlyInstallment?: FloatFieldUpdateOperationsInput | number
+    termMonths?: IntFieldUpdateOperationsInput | number
+    purpose?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    approvalDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disbursementDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guarantor1?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor1Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    payments?: LoanPaymentUncheckedUpdateManyWithoutLoanNestedInput
   }
 
   export type UserCreateWithoutWithdrawalsInput = {
@@ -13883,6 +14353,10 @@ export namespace Prisma {
     dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    guarantor1?: string | null
+    guarantor1Phone?: string | null
+    guarantor2?: string | null
+    guarantor2Phone?: string | null
   }
 
   export type TransactionCreateManyUserInput = {
@@ -13911,6 +14385,7 @@ export namespace Prisma {
 
   export type GuarantorCreateManyUserInput = {
     id?: string
+    loanId?: string | null
     fullName: string
     phone: string
     email?: string | null
@@ -13950,7 +14425,12 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guarantor1?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor1Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2Phone?: NullableStringFieldUpdateOperationsInput | string | null
     payments?: LoanPaymentUpdateManyWithoutLoanNestedInput
+    guarantors?: GuarantorUpdateManyWithoutLoanNestedInput
   }
 
   export type LoanUncheckedUpdateWithoutUserInput = {
@@ -13967,7 +14447,12 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guarantor1?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor1Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2Phone?: NullableStringFieldUpdateOperationsInput | string | null
     payments?: LoanPaymentUncheckedUpdateManyWithoutLoanNestedInput
+    guarantors?: GuarantorUncheckedUpdateManyWithoutLoanNestedInput
   }
 
   export type LoanUncheckedUpdateManyWithoutUserInput = {
@@ -13984,6 +14469,10 @@ export namespace Prisma {
     dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    guarantor1?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor1Phone?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2?: NullableStringFieldUpdateOperationsInput | string | null
+    guarantor2Phone?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TransactionUpdateWithoutUserInput = {
@@ -14066,10 +14555,12 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loan?: LoanUpdateOneWithoutGuarantorsNestedInput
   }
 
   export type GuarantorUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    loanId?: NullableStringFieldUpdateOperationsInput | string | null
     fullName?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14080,6 +14571,7 @@ export namespace Prisma {
 
   export type GuarantorUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    loanId?: NullableStringFieldUpdateOperationsInput | string | null
     fullName?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14149,6 +14641,17 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type GuarantorCreateManyLoanInput = {
+    id?: string
+    userId: string
+    fullName: string
+    phone: string
+    email?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type LoanPaymentUpdateWithoutLoanInput = {
     id?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
@@ -14174,6 +14677,39 @@ export namespace Prisma {
     amount?: FloatFieldUpdateOperationsInput | number
     paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
     receiptNo?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GuarantorUpdateWithoutLoanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutGuarantorsNestedInput
+  }
+
+  export type GuarantorUncheckedUpdateWithoutLoanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GuarantorUncheckedUpdateManyWithoutLoanInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if user exists and has sufficient savings
+    // Check if user exists
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
       include: {
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
     const dueDate = new Date()
     dueDate.setMonth(dueDate.getMonth() + term)
 
-    // Create loan
+    // ✅ FIX: Create loan WITH guarantor fields on the loan record
     const loan = await prisma.loan.create({
       data: {
         userId: user.id,
@@ -98,6 +98,11 @@ export async function POST(request: NextRequest) {
         purpose,
         dueDate,
         status: 'PENDING',
+        // ✅ Store guarantors directly on the loan
+        guarantor1: guarantor1,
+        guarantor1Phone: guarantor1Phone,
+        guarantor2: guarantor2 || null,
+        guarantor2Phone: guarantor2Phone || null,
       },
     })
 
@@ -113,11 +118,13 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Create guarantors if provided
+    // ✅ OPTIONAL: Also create Guarantor records if you want to track them separately
+    // This is good for keeping a separate guarantor history
     if (guarantor1) {
       await prisma.guarantor.create({
         data: {
           userId: user.id,
+          loanId: loan.id, // Link to the loan
           fullName: guarantor1,
           phone: guarantor1Phone,
           status: 'PENDING',
@@ -129,6 +136,7 @@ export async function POST(request: NextRequest) {
       await prisma.guarantor.create({
         data: {
           userId: user.id,
+          loanId: loan.id, // Link to the loan
           fullName: guarantor2,
           phone: guarantor2Phone || '',
           status: 'PENDING',
@@ -145,6 +153,10 @@ export async function POST(request: NextRequest) {
         totalRepayable: loan.totalRepayable,
         monthlyInstallment: loan.monthlyInstallment,
         termMonths: loan.termMonths,
+        guarantor1: loan.guarantor1,
+        guarantor1Phone: loan.guarantor1Phone,
+        guarantor2: loan.guarantor2,
+        guarantor2Phone: loan.guarantor2Phone,
       },
       { status: 201 }
     )

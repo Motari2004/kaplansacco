@@ -25,7 +25,8 @@ import {
   User,
   Phone,
   Mail,
-  Building2
+  Building2,
+  UserPlus // Added for guarantors
 } from 'lucide-react'
 
 interface Loan {
@@ -41,6 +42,11 @@ interface Loan {
   disbursementDate: string | null
   dueDate: string
   createdAt: string
+  // Add guarantor fields
+  guarantor1: string
+  guarantor1Phone: string
+  guarantor2: string
+  guarantor2Phone: string
   user: {
     firstName: string
     lastName: string
@@ -427,6 +433,32 @@ export default function AdminLoansPage() {
                   <div>
                     <p className="text-xs text-slate-500">Phone</p>
                     <p className="font-medium text-slate-900">{selectedLoan.user.phone}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Guarantors Section - NEW */}
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200/50">
+                <h3 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                  <UserPlus className="h-4 w-4 text-blue-600" />
+                  Guarantors
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white/70 rounded-lg p-3 border border-blue-200/30">
+                    <p className="text-xs text-slate-500">Guarantor 1</p>
+                    <p className="font-semibold text-slate-900">{selectedLoan.guarantor1 || 'N/A'}</p>
+                    <p className="text-sm text-blue-600 flex items-center gap-1">
+                      <Phone className="h-3 w-3" />
+                      {selectedLoan.guarantor1Phone || 'N/A'}
+                    </p>
+                  </div>
+                  <div className="bg-white/70 rounded-lg p-3 border border-blue-200/30">
+                    <p className="text-xs text-slate-500">Guarantor 2</p>
+                    <p className="font-semibold text-slate-900">{selectedLoan.guarantor2 || 'N/A'}</p>
+                    <p className="text-sm text-blue-600 flex items-center gap-1">
+                      <Phone className="h-3 w-3" />
+                      {selectedLoan.guarantor2Phone || 'N/A'}
+                    </p>
                   </div>
                 </div>
               </div>

@@ -6,7 +6,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // url is now defined in prisma.config.ts
 }
 
 model User {
@@ -34,7 +33,7 @@ model User {
   transactions  Transaction[]
   contributions Contribution[]
   guarantors    Guarantor[]
-  withdrawals   Withdrawal[] // Add this line
+  withdrawals   Withdrawal[]
 }
 
 model Loan {
@@ -54,7 +53,14 @@ model Loan {
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 
-  payments LoanPayment[]
+  // ✅ GUARANTOR FIELDS ADDED
+  guarantor1      String?
+  guarantor1Phone String?
+  guarantor2      String?
+  guarantor2Phone String?
+
+  payments   LoanPayment[]
+  guarantors Guarantor[] // Optional: if you want to link guarantors
 }
 
 model LoanPayment {
@@ -101,6 +107,8 @@ model Guarantor {
   id        String   @id @default(cuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  loanId    String? // Link to specific loan
+  loan      Loan?    @relation(fields: [loanId], references: [id])
   fullName  String
   phone     String
   email     String?
@@ -109,7 +117,6 @@ model Guarantor {
   updatedAt DateTime @updatedAt
 }
 
-// Add Withdrawal model
 model Withdrawal {
   id            String    @id @default(cuid())
   userId        String
@@ -120,7 +127,7 @@ model Withdrawal {
   bankName      String?
   accountNumber String?
   accountName   String?
-  status        String    @default("PENDING") // PENDING, COMPLETED, REJECTED
+  status        String    @default("PENDING")
   reference     String?   @unique
   processedBy   String?
   processedAt   DateTime?

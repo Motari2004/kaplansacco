@@ -156,7 +156,11 @@ exports.Prisma.LoanScalarFieldEnum = {
   disbursementDate: 'disbursementDate',
   dueDate: 'dueDate',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  guarantor1: 'guarantor1',
+  guarantor1Phone: 'guarantor1Phone',
+  guarantor2: 'guarantor2',
+  guarantor2Phone: 'guarantor2Phone'
 };
 
 exports.Prisma.LoanPaymentScalarFieldEnum = {
@@ -199,6 +203,7 @@ exports.Prisma.ContributionScalarFieldEnum = {
 exports.Prisma.GuarantorScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  loanId: 'loanId',
   fullName: 'fullName',
   phone: 'phone',
   email: 'email',

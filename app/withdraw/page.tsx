@@ -242,7 +242,7 @@ export default function WithdrawPage() {
                     <Smartphone className={`h-5 w-5 ${withdrawalMethod === 'mpesa' ? 'text-emerald-600' : 'text-slate-400'}`} />
                     <div className="text-left">
                       <p className={`text-sm font-medium ${withdrawalMethod === 'mpesa' ? 'text-emerald-700' : 'text-slate-700'}`}>M-Pesa</p>
-                      <p className="text-xs text-slate-400">Pending approval</p>
+                      <p className="text-xs text-slate-400">funds within 24hrs</p>
                     </div>
                     {withdrawalMethod === 'mpesa' && (
                       <CheckCircle className="h-5 w-5 text-emerald-500 ml-auto" />

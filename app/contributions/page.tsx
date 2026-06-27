@@ -69,15 +69,7 @@ export default function ContributionsPage() {
       color: 'from-amber-500 to-orange-500',
       bg: 'bg-amber-50'
     },
-    {
-      id: 'premium',
-      name: 'Premium Savings',
-      icon: Sparkles,
-      description: 'High-yield savings with premium benefits and higher returns',
-      minAmount: 1000,
-      color: 'from-purple-500 to-pink-500',
-      bg: 'bg-purple-50'
-    }
+  
   ]
 
   useEffect(() => {
