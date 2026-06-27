@@ -147,7 +147,8 @@ export default function RegisterPage() {
       if (response.ok) {
         setStkPushSent(true)
         setPaymentStatus('success')
-        setSuccess('✅ STK Push sent to your phone! Please check your phone and enter your M-Pesa PIN to complete payment.')
+        // Remove this success message to avoid duplicate
+        // setSuccess('✅ STK Push sent to your phone! Please check your phone and enter your M-Pesa PIN to complete payment.')
         
         setTimeout(async () => {
           try {
@@ -337,15 +338,15 @@ export default function RegisterPage() {
                   </div>
                 )}
 
-                {/* STK Push Status */}
-                {stkPushSent && (
+                {/* STK Push Status - Only show this, not the duplicate success message */}
+                {stkPushSent && !feePaid && (
                   <div className="bg-emerald-50/80 rounded-xl p-4 border border-emerald-200/50 mb-4">
                     <div className="flex items-center gap-3">
                       <div className="animate-pulse">
                         <Send className="h-5 w-5 text-emerald-600" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-emerald-700">✅ STK Push Sent!</p>
+                        <p className="text-sm font-medium text-emerald-700">STK Push Sent!</p>
                         <p className="text-xs text-emerald-600">Please check your phone and enter your M-Pesa PIN</p>
                         <div className="mt-1 flex items-center gap-2">
                           <div className="w-16 h-1 bg-emerald-200 rounded-full overflow-hidden">
@@ -360,7 +361,7 @@ export default function RegisterPage() {
 
                 <button
                   onClick={handleMpesaPayment}
-                  disabled={loading || paymentStatus === 'processing'}
+                  disabled={loading || paymentStatus === 'processing' || feePaid}
                   className="relative w-full group overflow-hidden py-3 rounded-xl font-semibold text-white shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 group-hover:scale-110 transition-transform duration-300"></div>
@@ -370,10 +371,15 @@ export default function RegisterPage() {
                         <Loader2 className="h-5 w-5 animate-spin" />
                         Sending STK Push...
                       </>
-                    ) : stkPushSent ? (
+                    ) : stkPushSent && !feePaid ? (
+                      <>
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                        Waiting for Payment...
+                      </>
+                    ) : feePaid ? (
                       <>
                         <CheckCircle className="h-5 w-5" />
-                        Waiting for Payment...
+                        Payment Complete
                       </>
                     ) : (
                       <>
