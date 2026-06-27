@@ -125,7 +125,8 @@ export default function AdminDashboard() {
     { name: 'Members', icon: Users, href: '/admin/members', color: 'text-blue-600', bg: 'bg-blue-50' },
     { name: 'Loans', icon: CreditCard, href: '/admin/loans', color: 'text-emerald-600', bg: 'bg-emerald-50' },
     { name: 'Withdrawals', icon: Wallet, href: '/admin/withdrawals', color: 'text-amber-600', bg: 'bg-amber-50' },
-
+    { name: 'Reports', icon: FileText, href: '/admin/reports', color: 'text-purple-600', bg: 'bg-purple-50' },
+    { name: 'Clean Savings', icon: Trash2, href: '/admin/clean-savings', color: 'text-red-600', bg: 'bg-red-50' },
   ]
 
   return (
