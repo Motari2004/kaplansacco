@@ -23,7 +23,9 @@ import {
   Clock,
   FileText,
   Shield,
-  ChevronRight
+  ChevronRight,
+  Car,
+  Church
 } from 'lucide-react'
 
 export default function ApplyLoanPage() {
@@ -43,6 +45,9 @@ export default function ApplyLoanPage() {
     guarantor1Phone: '',
     guarantor2: '',
     guarantor2Phone: '',
+    isChurchOfficial: false,
+    churchName: '',
+    churchPosition: '',
   })
 
   useEffect(() => {
@@ -90,6 +95,25 @@ export default function ApplyLoanPage() {
       return
     }
 
+    // Validate church official details for pastors/reverends/bishops loans
+    if (selectedLoan === 'church-car') {
+      if (!formData.isChurchOfficial) {
+        setError('Please confirm you are a church official (Pastor, Reverend, or Bishop)')
+        setLoading(false)
+        return
+      }
+      if (!formData.churchName) {
+        setError('Please provide your church name')
+        setLoading(false)
+        return
+      }
+      if (!formData.churchPosition) {
+        setError('Please provide your position in the church')
+        setLoading(false)
+        return
+      }
+    }
+
     try {
       const response = await fetch('/api/loans/apply', {
         method: 'POST',
@@ -103,6 +127,9 @@ export default function ApplyLoanPage() {
           guarantor1Phone: formData.guarantor1Phone,
           guarantor2: formData.guarantor2,
           guarantor2Phone: formData.guarantor2Phone,
+          isChurchOfficial: formData.isChurchOfficial,
+          churchName: formData.churchName,
+          churchPosition: formData.churchPosition,
         }),
       })
 
@@ -132,7 +159,9 @@ export default function ApplyLoanPage() {
       maxAmount: 2000000,
       interest: '12%',
       term: 'Up to 60 months',
-      color: 'from-blue-600 to-indigo-600'
+      color: 'from-blue-600 to-indigo-600',
+      iconBg: 'bg-blue-100',
+      iconColor: 'text-blue-600'
     },
     {
       id: 'biashara',
@@ -142,7 +171,9 @@ export default function ApplyLoanPage() {
       maxAmount: 1000000,
       interest: '10%',
       term: 'Up to 36 months',
-      color: 'from-emerald-600 to-teal-600'
+      color: 'from-emerald-600 to-teal-600',
+      iconBg: 'bg-emerald-100',
+      iconColor: 'text-emerald-600'
     },
     {
       id: 'emergency',
@@ -152,7 +183,9 @@ export default function ApplyLoanPage() {
       maxAmount: 500000,
       interest: '8%',
       term: 'Up to 12 months',
-      color: 'from-amber-600 to-orange-600'
+      color: 'from-amber-600 to-orange-600',
+      iconBg: 'bg-amber-100',
+      iconColor: 'text-amber-600'
     },
     {
       id: 'premium',
@@ -162,7 +195,9 @@ export default function ApplyLoanPage() {
       maxAmount: 3000000,
       interest: '9%',
       term: 'Up to 48 months',
-      color: 'from-purple-600 to-pink-600'
+      color: 'from-purple-600 to-pink-600',
+      iconBg: 'bg-purple-100',
+      iconColor: 'text-purple-600'
     },
     {
       id: 'asset',
@@ -172,7 +207,9 @@ export default function ApplyLoanPage() {
       maxAmount: 300000,
       interest: '11%',
       term: 'Up to 24 months',
-      color: 'from-indigo-600 to-purple-600'
+      color: 'from-indigo-600 to-purple-600',
+      iconBg: 'bg-indigo-100',
+      iconColor: 'text-indigo-600'
     },
     {
       id: 'mkaplans',
@@ -182,7 +219,22 @@ export default function ApplyLoanPage() {
       maxAmount: 50000,
       interest: '5%',
       term: 'Up to 6 months',
-      color: 'from-cyan-600 to-blue-600'
+      color: 'from-cyan-600 to-blue-600',
+      iconBg: 'bg-cyan-100',
+      iconColor: 'text-cyan-600'
+    },
+    {
+      id: 'church-car',
+      name: 'PASTORS, REVERENDS & BISHOPS CAR LOANS',
+      icon: Car,
+      description: 'Loans for purchasing vehicles, including cars and motorcycles for the men of GOD',
+      maxAmount: 3000000,
+      interest: '8%',
+      term: 'Up to 48 months',
+      color: 'from-amber-600 to-rose-600',
+      iconBg: 'bg-amber-100',
+      iconColor: 'text-amber-600',
+      isSpecial: false
     }
   ]
 
@@ -239,17 +291,24 @@ export default function ApplyLoanPage() {
                     isSelected 
                       ? `border-blue-500 bg-blue-50 shadow-md scale-105` 
                       : 'border-slate-200 bg-slate-50 hover:border-blue-300 hover:bg-blue-50/50'
-                  }`}
+                  } ${product.isSpecial ? 'ring-2 ring-amber-300/50' : ''}`}
                 >
                   {isSelected && (
                     <div className="absolute -top-2 -right-2 bg-blue-500 rounded-full p-0.5">
                       <CheckCircle className="h-5 w-5 text-white" />
                     </div>
                   )}
+                  {product.isSpecial && (
+                    <div className="absolute -top-1 -left-1">
+                      <span className="bg-gradient-to-r from-amber-500 to-rose-500 text-white text-[8px] font-bold px-2 py-0.5 rounded-full">
+                        SPECIAL
+                      </span>
+                    </div>
+                  )}
                   <div className={`inline-flex p-2 rounded-xl mb-2 ${
-                    isSelected ? 'bg-blue-500' : 'bg-slate-200'
+                    isSelected ? 'bg-blue-500' : product.iconBg
                   }`}>
-                    <Icon className={`h-5 w-5 ${isSelected ? 'text-white' : 'text-slate-600'}`} />
+                    <Icon className={`h-5 w-5 ${isSelected ? 'text-white' : product.iconColor}`} />
                   </div>
                   <p className={`text-sm font-semibold ${isSelected ? 'text-blue-700' : 'text-slate-800'}`}>
                     {product.name}
@@ -257,6 +316,11 @@ export default function ApplyLoanPage() {
                   <p className="text-xs text-slate-500 mt-1">
                     {product.interest} • {product.term}
                   </p>
+                  {product.isSpecial && (
+                    <p className="text-[10px] text-amber-600 font-medium mt-1">
+                      ✝️ For Church Officials
+                    </p>
+                  )}
                 </button>
               )
             })}
@@ -267,15 +331,36 @@ export default function ApplyLoanPage() {
         {selectedLoanData && (
           <div className={`bg-gradient-to-r ${selectedLoanData.color} rounded-xl p-4 text-white mb-6`}>
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm opacity-80">Selected Loan</p>
-                <p className="text-xl font-bold">{selectedLoanData.name}</p>
-                <p className="text-sm opacity-90">{selectedLoanData.description}</p>
+              <div className="flex items-center gap-3">
+                <div className="bg-white/20 p-2 rounded-xl">
+                  <selectedLoanData.icon className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-sm opacity-80">Selected Loan</p>
+                  <p className="text-xl font-bold">{selectedLoanData.name}</p>
+                  <p className="text-sm opacity-90">{selectedLoanData.description}</p>
+                </div>
               </div>
               <div className="text-right">
                 <p className="text-sm opacity-80">Interest Rate</p>
                 <p className="text-2xl font-bold">{selectedLoanData.interest}</p>
                 <p className="text-xs opacity-80">{selectedLoanData.term}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Church Official Details - Shown only for Church Car Loan */}
+        {selectedLoan === 'church-car' && (
+          <div className="bg-amber-50/80 rounded-xl p-4 border-2 border-amber-300/50 mb-6">
+            <div className="flex items-start gap-3">
+              <Church className="h-5 w-5 text-amber-600 mt-0.5" />
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-amber-800">Church Official Details</p>
+                <p className="text-sm text-amber-700 mt-1">
+                  This loan product is exclusively for Pastors, Reverends, and Bishops.
+                  Please provide your church details below.
+                </p>
               </div>
             </div>
           </div>
@@ -292,6 +377,9 @@ export default function ApplyLoanPage() {
                 <li>• Requires 3-month savings history</li>
                 <li>• Approval based on appraisal by a loan officer</li>
                 <li>• Two guarantors required</li>
+                {selectedLoan === 'church-car' && (
+                  <li className="font-semibold text-amber-700">• ✝️ Special rate for Church Officials</li>
+                )}
               </ul>
             </div>
           </div>
@@ -305,6 +393,58 @@ export default function ApplyLoanPage() {
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Church Official Fields - Only for Church Car Loan */}
+            {selectedLoan === 'church-car' && (
+              <div className="bg-amber-50 rounded-xl p-4 border border-amber-200/50 space-y-4">
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    id="isChurchOfficial"
+                    checked={formData.isChurchOfficial}
+                    onChange={(e) => setFormData({ ...formData, isChurchOfficial: e.target.checked })}
+                    className="w-4 h-4 rounded border-amber-300 text-amber-600 focus:ring-amber-500"
+                  />
+                  <label htmlFor="isChurchOfficial" className="text-sm font-medium text-amber-800">
+                    I am a Pastor, Reverend, or Bishop
+                  </label>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-amber-700 mb-1">
+                      Church Name *
+                    </label>
+                    <input
+                      type="text"
+                      required={formData.isChurchOfficial}
+                      value={formData.churchName}
+                      onChange={(e) => setFormData({ ...formData, churchName: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all outline-none bg-white/70 text-slate-800"
+                      placeholder="Enter your church name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-amber-700 mb-1">
+                      Position *
+                    </label>
+                    <select
+                      required={formData.isChurchOfficial}
+                      value={formData.churchPosition}
+                      onChange={(e) => setFormData({ ...formData, churchPosition: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all outline-none bg-white/70 text-slate-800"
+                    >
+                      <option value="">Select position</option>
+                      <option value="Pastor">Pastor</option>
+                      <option value="Reverend">Reverend</option>
+                      <option value="Bishop">Bishop</option>
+                      <option value="Archbishop">Archbishop</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">
                 Loan Amount (Kshs) *
@@ -321,7 +461,9 @@ export default function ApplyLoanPage() {
                   placeholder="Enter amount"
                 />
               </div>
-              <p className="text-xs text-slate-500 mt-1">Minimum: Kshs 1,000 | Maximum: Based on your savings</p>
+              <p className="text-xs text-slate-500 mt-1">
+                Minimum: Kshs 1,000 | Maximum: {selectedLoanData ? `Kshs ${selectedLoanData.maxAmount.toLocaleString()}` : 'Based on your savings'}
+              </p>
             </div>
 
             <div>
@@ -435,7 +577,7 @@ export default function ApplyLoanPage() {
               disabled={loading || !selectedLoan}
               className="relative w-full group overflow-hidden py-3 rounded-xl font-semibold text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 group-hover:scale-110 transition-transform duration-300"></div>
+              <div className={`absolute inset-0 ${selectedLoan === 'church-car' ? 'bg-gradient-to-r from-amber-600 to-rose-600' : 'bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600'} group-hover:scale-110 transition-transform duration-300`}></div>
               <span className="relative z-10 flex items-center justify-center gap-2">
                 {loading ? (
                   <>
@@ -444,7 +586,11 @@ export default function ApplyLoanPage() {
                   </>
                 ) : (
                   <>
-                    <CreditCard className="h-5 w-5" />
+                    {selectedLoan === 'church-car' ? (
+                      <Church className="h-5 w-5" />
+                    ) : (
+                      <CreditCard className="h-5 w-5" />
+                    )}
                     {selectedLoan ? 'Submit Loan Application' : 'Select a Loan Product First'}
                   </>
                 )}
