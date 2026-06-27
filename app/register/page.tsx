@@ -217,44 +217,27 @@ export default function RegisterPage() {
                   </div>
                   <h2 className="text-2xl font-bold text-slate-800">Complete Registration</h2>
                   <p className="text-sm text-slate-700 mt-1 font-medium">
-  Pay registration fee to activate your account
-</p>
+                    Pay registration fee to activate your account
+                  </p>
                 </div>
 
-
-
-
-
-
-
-
-{/* Member Details */}
-<div className="bg-slate-50 rounded-xl p-4 mb-6 border border-slate-200">
-  <div className="flex items-center justify-between mb-2">
-    <span className="text-sm text-slate-500">Member Number</span>
-    <span className="text-sm font-bold text-slate-400">
-      {feePaid ? memberData?.memberNumber : 'Pending Payment'}
-    </span>
-  </div>
-  <div className="flex items-center justify-between mb-2">
-    <span className="text-sm text-slate-500">Name</span>
-    <span className="text-sm font-medium text-slate-900">{memberData?.firstName} {memberData?.lastName}</span>
-  </div>
-  <div className="flex items-center justify-between">
-    <span className="text-sm text-slate-500">Email</span>
-    <span className="text-sm font-medium text-slate-900">{memberData?.email}</span>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
+                {/* Member Details */}
+                <div className="bg-slate-50 rounded-xl p-4 mb-6 border border-slate-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-slate-500">Member Number</span>
+                    <span className="text-sm font-bold text-slate-400">
+                      {feePaid ? memberData?.memberNumber : 'Pending Payment'}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-slate-500">Name</span>
+                    <span className="text-sm font-medium text-slate-900">{memberData?.firstName} {memberData?.lastName}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-slate-500">Email</span>
+                    <span className="text-sm font-medium text-slate-900">{memberData?.email}</span>
+                  </div>
+                </div>
 
                 {/* Fee Details */}
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-6 border border-blue-200/50">
@@ -291,8 +274,8 @@ export default function RegisterPage() {
                       />
                     </div>
                     <p className="text-xs text-slate-700 mt-1 font-medium">
-  You will receive an STK Push on this number
-</p>
+                      You will receive an STK Push on this number
+                    </p>
                   </div>
 
                   {/* M-Pesa Guide */}
@@ -401,15 +384,10 @@ export default function RegisterPage() {
                   </span>
                 </button>
 
-
-
-<p className="text-xs text-slate-700 text-center mt-4 font-medium">
-  You will receive an STK Push on your M-Pesa registered phone number.
-  Enter your PIN to complete the payment.
-</p>
-
-
-
+                <p className="text-xs text-slate-700 text-center mt-4 font-medium">
+                  You will receive an STK Push on your M-Pesa registered phone number.
+                  Enter your PIN to complete the payment.
+                </p>
               </>
             ) : (
               // Success screen after payment
@@ -467,31 +445,25 @@ export default function RegisterPage() {
             <span className="text-xs font-medium text-slate-600">Home</span>
           </Link>
 
-          {/* Header with Logo */}
-          <div className="flex items-center gap-4 mb-6">
-            <Link
-              href="/"
-              className="p-2 rounded-xl bg-white/70 backdrop-blur-sm hover:bg-white/90 transition-colors border border-blue-200/30 shadow-sm"
-            >
-              <ArrowLeft className="h-5 w-5 text-slate-600" />
-            </Link>
-            <div className="flex-1 text-center">
-              <div className="flex justify-center mb-2">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur-xl opacity-40"></div>
-                  <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-white p-1.5 shadow-lg border border-blue-200/50">
-                    <img
-                      src="/images/logo.JPG"
-                      alt="Kaplans SACCO Logo"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
+          {/* Centered Header with Logo */}
+          <div className="text-center mb-8">
+            <div className="flex justify-center mb-3">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur-xl opacity-40"></div>
+                <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-white p-2 shadow-lg border border-blue-200/50">
+                  <img
+                    src="/images/logo.JPG"
+                    alt="Kaplans SACCO Logo"
+                    className="w-full h-full object-contain"
+                  />
                 </div>
               </div>
-              <h2 className="text-lg font-bold text-slate-800">KAPLANS SAVINGS AND CREDIT</h2>
-              <h3 className="text-md font-semibold text-slate-700">CO-OPERATIVE SOCIETY LTD</h3>
-              <p className="text-sm text-slate-500">Membership Application</p>
             </div>
+            
+            <h2 className="text-xl font-bold text-slate-800">KAPLANS SAVINGS AND CREDIT</h2>
+            <h3 className="text-lg font-semibold text-slate-700">CO-OPERATIVE SOCIETY LTD</h3>
+            <div className="mt-1 h-0.5 w-20 mx-auto bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+            <p className="text-sm text-slate-500 mt-2">Membership Application</p>
           </div>
 
           {/* Requirements */}
@@ -756,17 +728,6 @@ export default function RegisterPage() {
               disabled={loading}
               className="relative w-full group overflow-hidden py-3 rounded-xl font-semibold text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105"
             >
-
-
-
-
-
-
-
-
-
-
-
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 group-hover:scale-110 transition-transform duration-300"></div>
               <span className="relative z-10 flex items-center justify-center">
                 {loading ? (
