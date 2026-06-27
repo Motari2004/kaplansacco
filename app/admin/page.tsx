@@ -136,7 +136,7 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-between h-14 sm:h-16">
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-lg overflow-hidden bg-white border border-slate-200 flex items-center justify-center flex-shrink-0">
-                <img src="/images/logo.jpg" alt="Logo" className="w-full h-full object-contain p-1" />
+                <img src="/images/logo.JPG" alt="Logo" className="w-full h-full object-contain p-1" />
               </div>
               <div>
                 <span className="text-sm sm:text-base md:text-xl font-bold text-slate-900">Admin Panel</span>
