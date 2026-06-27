@@ -411,7 +411,7 @@ export default function HomePage() {
         </div>
         <div className="flex items-center text-white/80">
           <BadgeCheck className="h-4 w-4 text-emerald-400 mr-1.5" />
-          <span>Est. 2010</span>
+          <span>Est. 2016</span>
         </div>
       </div>
     </div>
